@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+{% block 'content' %}
+    <div class="section">
+	    	<div class="container">
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-1 social-login">
+							<p class="text-center">Для регистрации на сайте, заполните форму.</p>
+					</div>
+				</div>
+				<div class="row">
+						<div class="col-sm-5" >
+							<div class="basic-login">
+								<form role="form" method="post" action="">
+									{% csrf_token %}
+									{% if messages %}
+										{% for message in messages %}
+											<div class="alert alert-success" role="alert">
+												{{ message }}
+											</div>
+										{% endfor %}
+									{% endif %}
+									{% for field in form %}
+									<div class="form-group">
+
+										{% if field.errors %}
+											{% for error in field.errors %}
+												<div class="alert alert-danger">
+													{{error}}
+												</div>
+											{% endfor %}
+										{% endif %}
+										{{field.label_tag}}
+										{{field}}
+									</div>
+									{% endfor %}
+									<div class="form-group">
+										<button type="submit" class="btn pull-right">Зарегистрироваться</button>
+										<div class="clearfix"></div>
+									</div>
+								</form>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+{% endblock %}
