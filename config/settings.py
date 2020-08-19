@@ -29,6 +29,7 @@ INSTALLED_APPS = [
 
     'account',
     'indicators',
+    'set',
 ]
 
 MIDDLEWARE = [
@@ -114,3 +115,5 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
 
 AUTH_USER_MODEL = 'account.CustomUser'
+
+SET_SESSION_ID = 'set'

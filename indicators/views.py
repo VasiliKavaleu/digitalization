@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Degree
-from . forms import ChooseDegreeForm
+from set.set import Set
+from django.conf import settings
 
 
 def main(request):
@@ -9,8 +10,9 @@ def main(request):
 def choose_indicator(request):
     if request.user.is_authenticated:
         indicators = Degree.objects.all()
-        choose_degree_form = ChooseDegreeForm()
-        return render(request, 'indicators.html', {'indicators': indicators, 'choose_degree_form': choose_degree_form })
+        set = Set(request)
+        set_id = [int(i) for i in request.session.get(settings.SET_SESSION_ID).keys()]
+        return render(request, 'indicators.html', {'indicators': indicators, 'set':set, 'set_id':set_id})
     else:
         return redirect('account:login_user')
 

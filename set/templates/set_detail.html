@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Опросный лист{% endblock %}
+{% block 'content' %}
+    {% if set %}
+        {% for item in set %}
+                <div class="section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6">
+                                <div class="service-wrapper">
+                                    <img src="{% static 'img/service-icon/diamond.png' %}" alt="Service Name">
+                                    <h3>{{ item }}</h3>
+                                    <a href="{% url 'set:remove_indicator' item.id %}" class="btn">Удалить</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

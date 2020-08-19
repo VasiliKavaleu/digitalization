@@ -32,7 +32,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Вы успешно зарегистрированы!')
-            return render(request, 'login.html')
+            return render(request, 'register.html', {'form': form})
         else:
             return render(request, 'register.html', {'form': form})
     return render(request, 'register.html', {'form': form})
