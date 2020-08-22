@@ -1,6 +1,5 @@
 {% extends 'index.html' %}
 {% load static %}
-
 {% block 'content' %}
         <div class="section section-breadcrumbs">
             <div class="container">
@@ -11,7 +10,6 @@
                 </div>
             </div>
         </div>
-
         <div class="section">
 			<div class="container">
 				<div class="row">
@@ -24,10 +22,10 @@
                                             <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse22">
                                                 {{ indicator.name }}
                                             </a>
-                                            {% if indicator.id in set_id %}
-                                                <a href="{% url 'set:change_set' indicator.id %}" class="btn">Удалить</a>
+                                            {% if indicator.id in set_of_id %}
+                                                <a href="{% url 'set:remove_from_set' indicator.id %}" class="btn">Удалить</a>
                                             {% else %}
-                                                <a href="{% url 'set:change_set' indicator.id %}" class="btn">Выбрать</a>
+                                                <a href="{% url 'set:add_indicator' indicator.id %}" class="btn">Выбрать</a>
                                             {% endif %}
                                         </div>
                                         <div id="collapse22" class="accordion-body collapse" style="height: 0px;">
@@ -44,7 +42,6 @@
 				</div>
             </div>
 	    </div>
-
         <div class="section section">
             <div class="container">
                 <div class="row">
@@ -56,5 +53,4 @@
                 </div>
             </div>
         </div>
-
 {% endblock %}

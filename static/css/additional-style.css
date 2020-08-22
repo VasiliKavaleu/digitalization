@@ -13,3 +13,7 @@ img.logo {
 .event-day.castom {
     text-align: center;
 }
+
+td.event-price.hidden-xs {
+    text-align: right;
+}

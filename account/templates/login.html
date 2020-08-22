@@ -10,14 +10,11 @@
 				</div>
             <div class="row">
                 <div class="col-sm-1 col-sm-offset-1 social-login">
-
                 </div>
                 <div class="col-sm-5" >
                     <div class="basic-login">
-
                         <form role="form" method="post" action="">
                             {% csrf_token %}
-
                             {% if messages %}
                                 {% for message in messages %}
                                     <div class="alert alert-warning" role="alert">

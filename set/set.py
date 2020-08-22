@@ -1,4 +1,3 @@
-from decimal import Decimal
 from django.conf import settings
 from indicators.models import Degree
 
@@ -12,36 +11,36 @@ class Set(object):
             set = self.session[settings.SET_SESSION_ID] = {}
         self.set = set
 
-    def add_or_del(self, degree):
-        """Adding degree into cart and deleting quantity."""
-        degree_id = str(degree.id)
-        if degree_id not in self.set:
-            self.set[degree_id] = {'value': 0}
-        else:
-            del self.set[degree_id]
+    def add_to_set(self, indicator):
+        """Adding indicator into set."""
+        indicator_id = str(indicator.id)
+        if indicator_id not in self.set:
+            indicator_obj = Degree.objects.filter(id=indicator_id).values()
+            self.set[indicator_id] = {'value': '0', 'buisness_process': '', 'name': indicator_obj[0]['name'], 'id': indicator_id}
         self.save()
 
-    def save(self):
-        self.session.modified = True
-
-    def remove(self, degree):
-        """Removing degrees from cart."""
-        degree_id = str(degree.id)
-        if degree_id in self.set:
-            del self.set[degree_id]
+    def remove_from_set(self, indicator):
+        """Removing indicator from set."""
+        indicator_id = str(indicator.id)
+        if indicator_id in self.set:
+            del self.set[indicator_id]
         self.save()
 
-    def __iter__(self):
+
+
+
+
+    def __iter__(self): # not used
         """Iteration through degrees in the Set."""
         degree_ids = self.set.keys()
         degrees = Degree.objects.filter(id__in=degree_ids)
         for degree in degrees:
             yield degree
 
-
-
-    def clear(self):
+    def clear(self): # not used
         """Cleaning set."""
         del self.session[settings.SET_SESSION_ID]
         self.save()
 
+    def save(self): # not used
+        self.session.modified = True

@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Опросный лист{% endblock %}
+{% block 'content' %}
+<div class="section section-breadcrumbs">
+ <div class="container">
+  <div class="row">
+   <div class="col-md-12">
+    <h1>Шаг 3: Заполните опросный лист</h1>
+   </div>
+  </div>
+ </div>
+</div>
+<div class="section">
+ <div class="container">
+   <div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="service-wrapper">
+            <img src="img/service-icon/diamond.png" alt="Service 1">
+             {% if indicator.name %}
+             <h3>{{ indicator.name }}</h3>
+            {% endif %}
+            {% if indicator.question %}
+             <p>{{ indicator.question }}</p>
+            {% endif %}
+            {% if indicator.answerchoice_set.all %}
+            <form action="#" method="POST">
+             {% csrf_token %}
+             {% for possible_answer in indicator.answerchoice_set.all %}
+                     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.id }}">
+                     <label for="choice{{ forloop.counter }}">{{ possible_answer }}</label><br>
+             {% endfor %}
+             <input type="submit" value="Vote">
+            </form>
+
+               <br>
+               <br>
+
+            {% endif %}
+            <a href="#" class="btn">Принять</a>
+        </div>
+    </div>
+  </div>
+ </div>
+</div>
+
+{% endblock %}

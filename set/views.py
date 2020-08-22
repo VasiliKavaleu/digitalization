@@ -1,25 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
+
 from indicators.models import Degree
 from .set import Set
-from .forms import AnswerChoiceForm
+from django.conf import settings
 
-
-def change_set(request, degree_id):
-    """Adding (del) degree into (from) set."""
-    set = Set(request)
-    degree = get_object_or_404(Degree, id=degree_id)
-    set.add_or_del(degree=degree)
-    return redirect('choose_indicator')
 
 def set_detail(request):
     """Reflecting content of set."""
-    set = Set(request)
-    form = AnswerChoiceForm()
-    return render(request, 'detail.html', {'set': set, 'form': form})
+    interim_set = request.session.get(settings.SET_SESSION_ID)
+    return render(request, 'set_detail.html', {'interim_set': interim_set})
 
-def remove_indicator(request, degree_id):
-    """Adding (del) degree into (from) set."""
+def add_indicator(request, indicator_id):
+    """Adding indicator into set."""
     set = Set(request)
-    degree = get_object_or_404(Degree, id=degree_id)
-    set.remove(degree=degree)
-    return redirect('set:set_detail')
+    indicator = get_object_or_404(Degree, id=indicator_id)
+    set.add_to_set(indicator=indicator)
+    return redirect('choose_indicator')
+
+def remove_indicator(request, indicator_id):
+    """Del indicator from set."""
+    set = Set(request)
+    indicator = get_object_or_404(Degree, id=indicator_id)
+    set.remove_from_set(indicator=indicator)
+    return redirect('choose_indicator')

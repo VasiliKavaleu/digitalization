@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'account',
     'indicators',
     'set',
+    'calculating',
 ]
 
 MIDDLEWARE = [
