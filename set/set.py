@@ -16,7 +16,7 @@ class Set(object):
         """Adding degree into cart and deleting quantity."""
         degree_id = str(degree.id)
         if degree_id not in self.set:
-            self.set[degree_id] = {'selected': True}
+            self.set[degree_id] = {'value': 0}
         else:
             del self.set[degree_id]
         self.save()

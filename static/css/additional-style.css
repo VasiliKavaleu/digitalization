@@ -5,3 +5,11 @@
 .content {
 	min-height: calc(100vh - 246px);
 }
+
+img.logo {
+    width: 200px;
+}
+
+.event-day.castom {
+    text-align: center;
+}

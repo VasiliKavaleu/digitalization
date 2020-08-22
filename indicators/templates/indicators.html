@@ -2,39 +2,59 @@
 {% load static %}
 
 {% block 'content' %}
-            <div class="section">
-                <div class="container">
-                    <div class="row">
-                        {% if indicators %}
-                            {% for indicator in indicators %}
-                                <div class="col-md-4 col-sm-6">
-                                    <div class="service-wrapper">
-                                        <img src="{% static 'img/service-icon/diamond.png' %}" alt="Service Name">
-                                        <h3>{{ indicator.name }}</h3>
-    <!--                                    <p>Praesent rhoncus mauris ac sollicitudin vehicula. Nam fringilla turpis turpis, at posuere turpis aliquet sit amet condimentum</p>-->
-    <!--                                    <a href="#" class="btn">Read more</a>-->
+        <div class="section section-breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Шаг 1: Выберите показатели соответствующие виду деятельности Вашей организации</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 faq-wrapper">
+						<div class="panel-group" id="accordion2">
+                            {% if indicators %}
+                                {% for indicator in indicators %}
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse22">
+                                                {{ indicator.name }}
+                                            </a>
                                             {% if indicator.id in set_id %}
                                                 <a href="{% url 'set:change_set' indicator.id %}" class="btn">Удалить</a>
                                             {% else %}
                                                 <a href="{% url 'set:change_set' indicator.id %}" class="btn">Выбрать</a>
                                             {% endif %}
+                                        </div>
+                                        <div id="collapse22" class="accordion-body collapse" style="height: 0px;">
+                                            <div class="accordion-inner">
+                                                <div class="answer">Краткое описание:</div>
+                                                <p>{{ indicator.description }}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                    <div class="section section">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="calltoaction-wrapper">
-                                        <h3>Перейти к опросным листам </h3> <a href="{% url 'set:set_detail' %}" class="btn btn-orange">Рассчитать</a>
-                                    </div>
-                                </div>
-                            </div>
+                                {% endfor %}
+                            {% endif %}
+						</div>
+					</div>
+				</div>
+            </div>
+	    </div>
+
+        <div class="section section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="calltoaction-wrapper">
+                            <a href="{% url 'set:set_detail' %}" class="btn btn-orange">Перейти к списку выбранных показателей</a>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-	        </div>
 {% endblock %}

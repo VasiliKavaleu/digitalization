@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}Показатели{% endblock %}
+{% block 'content' %}
+      <div class="section">
+	    	<div class="container">
+	    		<div class="row">
+	    			<div class="col-md-12">
+	    				<table class="events-list">
+                                {% if set %}
+                                        <tr>
+                                            <td>
+                                                <div >
+                                                    <div class="event-day castom"><b>№</b></div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <b>Наименование показателя</b>
+                                            </td>
+                                            <td class="event-venue hidden-xs"><i class="icon-map-marker"></i>
+                                                <b>Бизнес-процесс</b>
+                                            </td>
+                                            <td class="event-price hidden-xs"><b>Значение</b></td>
+                                        </tr>
+                                    {% for item in set %}
+                                        <tr>
+                                            <td>
+                                                <div class="event-date">
+                                                    <div class="event-day">{{ forloop.counter }}</div>
+                                                    <div class="event-month"><a href="">Удалить</a></div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{ item }}
+                                            </td>
+                                            <td class="event-venue hidden-xs"><i class="icon-map-marker"></i>
+                                                {% if item.business_process %}
+                                                    {{ item.business_process }}
+                                                {% else %}
+                                                    Не выбран
+                                                {% endif %}
+                                            </td>
+                                            <td class="event-price hidden-xs">{{ item.value }}</td>
+                                            <td><a href="#" class="btn btn-grey btn-sm event-more">Рассчитать</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+	    				</table>
+	    			</div>
+	    		</div>
+			</div>
+		</div>
+{% endblock %}

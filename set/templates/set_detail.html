@@ -1,17 +1,44 @@
 {% extends 'index.html' %}
 {% load static %}
-{% block title %}Опросный лист{% endblock %}
+{% block title %}Показатели{% endblock %}
 {% block 'content' %}
+
+        <div class="section section-breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Заполните опросный лист</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     {% if set %}
         {% for item in set %}
                 <div class="section">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-4 col-sm-6">
+                            <div class="col-md-12 col-sm-6">
                                 <div class="service-wrapper">
                                     <img src="{% static 'img/service-icon/diamond.png' %}" alt="Service Name">
                                     <h3>{{ item }}</h3>
-                                    <a href="{% url 'set:remove_indicator' item.id %}" class="btn">Удалить</a>
+                                    <div class="row">
+                                        <a href="{% url 'set:remove_indicator' item.id %}" class="btn">Удалить</a>
+                                    </div>
+
+                                    <b>{{ item.question }}</b>
+                                    <br><br>
+                                    <form action="" method="post" >
+                                        {% csrf_token %}
+                                         {% for t in item.answerchoice_set.all %}
+                                            {{ t }}
+                                            <br>
+                                            {{ form.name }}
+                                            <br>
+                                            <hr>
+                                        {% endfor %}
+                                        <input type="submit" value="Send" >
+                                    </form>
                                 </div>
                             </div>
                         </div>
