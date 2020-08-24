@@ -16,7 +16,7 @@ class Set(object):
         indicator_id = str(indicator.id)
         if indicator_id not in self.set:
             indicator_obj = Degree.objects.filter(id=indicator_id).values()
-            self.set[indicator_id] = {'value': '0', 'buisness_process': '', 'name': indicator_obj[0]['name'], 'id': indicator_id}
+            self.set[indicator_id] = {'value': '0', 'business_process': '', 'name': indicator_obj[0]['name'], 'id': indicator_id}
         self.save()
 
     def remove_from_set(self, indicator):

@@ -17,25 +17,49 @@
     <div class="col-md-12 col-sm-12">
         <div class="service-wrapper">
             <img src="img/service-icon/diamond.png" alt="Service 1">
+                <!--            Name of indicator-->
              {% if indicator.name %}
-             <h3>{{ indicator.name }}</h3>
+                <h3>{{ indicator.name }}</h3>
             {% endif %}
             {% if indicator.question %}
-             <p>{{ indicator.question }}</p>
+                <p>{{ indicator.question }}</p>
             {% endif %}
+            <!--            End name of indicator-->
+
             {% if indicator.answerchoice_set.all %}
-            <form action="#" method="POST">
-             {% csrf_token %}
-             {% for possible_answer in indicator.answerchoice_set.all %}
-                     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.id }}">
-                     <label for="choice{{ forloop.counter }}">{{ possible_answer }}</label><br>
-             {% endfor %}
-             <input type="submit" value="Vote">
-            </form>
-
-               <br>
-               <br>
-
+                {% if indicator.multiple_answer %}
+                        <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
+                            {% csrf_token %}
+                            {{ form }}
+                            {% for possible_answer in indicator.answerchoice_set.all %}
+                                 <input type="checkbox" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
+                                 <label for="choice{{ forloop.counter }}">{{ possible_answer }}</label><br>
+                            {% endfor %}
+                            {% if error_message %}
+                                    <div class="alert alert-warning" role="alert">
+                                        {{ error_message }}
+                                    </div>
+                            {% endif %}
+                            <input type="submit" value="Vote">
+                        </form>
+                {% else %}
+                    <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
+                         {% csrf_token %}
+                         {{ form }}
+                         {% for possible_answer in indicator.answerchoice_set.all %}
+                                 <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
+                                 <label for="choice{{ forloop.counter }}">{{ possible_answer }}</label><br>
+                         {% endfor %}
+                        {% if error_message %}
+                                <div class="alert alert-warning" role="alert">
+                                    {{ error_message }}
+                                </div>
+                        {% endif %}
+                        <input type="submit" value="Vote">
+                    </form>
+                {% endif %}
+                   <br>
+                   <br>
             {% endif %}
             <a href="#" class="btn">Принять</a>
         </div>

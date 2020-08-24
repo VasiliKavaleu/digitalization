@@ -17,3 +17,11 @@ img.logo {
 td.event-price.hidden-xs {
     text-align: right;
 }
+
+
+
+img.img-step {
+    width: 90px;
+    margin-bottom: 25px;
+}
+

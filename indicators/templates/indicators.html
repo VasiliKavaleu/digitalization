@@ -22,7 +22,7 @@
                                             <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse22">
                                                 {{ indicator.name }}
                                             </a>
-                                            {% if indicator.id in set_of_id %}
+                                            {% if indicator.id in list_id_in_set %}
                                                 <a href="{% url 'set:remove_from_set' indicator.id %}" class="btn">Удалить</a>
                                             {% else %}
                                                 <a href="{% url 'set:add_indicator' indicator.id %}" class="btn">Выбрать</a>
