@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class Degree(models.Model):
     """Показатель разновидности - степень"""
     TYPE_OF_BUSINESS_PROCESS = [

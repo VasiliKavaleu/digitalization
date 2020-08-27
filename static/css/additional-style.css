@@ -25,3 +25,75 @@ img.img-step {
     margin-bottom: 25px;
 }
 
+
+
+/*CHECKBOXSTYLE*/
+
+.checkbox,
+.radio {
+ display: inline-block;
+ margin-bottom: 15px;
+}
+.checkbox:hover,
+ .radio:hover {
+ cursor: pointer;
+}
+.checkbox .fa,
+ .radio .fa {
+ width: 1em;
+}
+.indent {
+ padding-left: 30px;
+}
+.indent .fa {
+ margin-left: -30px;
+}
+.checkbox input[type="checkbox"],
+.radio input[type="radio"] {
+ display: none;
+}
+.checkbox input[type="checkbox"] + i:before,
+ .radio input[type="radio"] + i:before {
+ content: "\f096";
+ position: relative;
+ bottom: -4px;
+ margin-right: 5px;
+ color: #999;
+}
+.checkbox:hover input[type="checkbox"] + i:before,
+.radio:hover input[type="radio"] + i:before {
+ color: green;
+}
+.checkbox input[type="checkbox"]:checked + i:before,
+.radio input[type="radio"]:checked + i:before {
+ content: "\f046";
+ color: green;
+}
+.checkbox input[type="checkbox"]:disabled + i:before,
+.checkbox input[type="checkbox"]:disabled:checked + i:before,
+.radio input[type="radio"]:disabled + i:before,
+.radio input[type="radio"]:disabled:checked + i:before {
+ color: #ddd;
+}
+
+/*QUESTIONNAIRE*/
+
+h3.name-indicator-question {
+    text-align: center;
+}
+
+p.name-question {
+    text-align: center;
+}
+
+p.name-bp {
+	text-align: center;
+}
+
+.service-wrapper.opportunity {
+    text-align: center;
+}
+
+.alert.alert-warning {
+    text-align: center;
+}

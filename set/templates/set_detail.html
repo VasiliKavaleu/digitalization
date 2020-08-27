@@ -2,6 +2,15 @@
 {% load static %}
 {% block title %}Показатели{% endblock %}
 {% block 'content' %}
+        <div class="section section-breadcrumbs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Шаг 2: Заполните опросные листы</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
       <div class="section">
 	    	<div class="container">
 	    		<div class="row">
@@ -52,6 +61,14 @@
                                     </div>
                                 {% endif %}
 	    				</table>
+                        {% if error_message %}
+                            <div class="alert alert-warning" role="alert">
+                                {{ error_message }}
+                            </div>
+                        {% endif %}
+                        <div class="calltoaction-wrapper">
+                            <a href="{% url 'calculating:get_result_of_value' %}" class="btn btn-orange">Рассчитать значение цифровизации</a>
+                        </div>
 	    			</div>
 	    		</div>
 			</div>

@@ -1,7 +1,17 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block title %}Опросный лист{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% endblock %}
 {% block 'content' %}
+
+
+
+
 <div class="section section-breadcrumbs">
  <div class="container">
   <div class="row">
@@ -15,53 +25,88 @@
  <div class="container">
    <div class="row">
     <div class="col-md-12 col-sm-12">
+        {% if indicator.name %}
+            <h3 class="name-indicator-question">{{ indicator.name }}</h3>
+        {% endif %}
         <div class="service-wrapper">
-            <img src="img/service-icon/diamond.png" alt="Service 1">
-                <!--            Name of indicator-->
-             {% if indicator.name %}
-                <h3>{{ indicator.name }}</h3>
-            {% endif %}
-            {% if indicator.question %}
-                <p>{{ indicator.question }}</p>
-            {% endif %}
-            <!--            End name of indicator-->
-
             {% if indicator.answerchoice_set.all %}
                 {% if indicator.multiple_answer %}
                         <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
                             {% csrf_token %}
-                            {{ form }}
+
+                            {% if indicator.question %}
+                                <p class="name-question">{{ indicator.question }}</p>
+                            {% endif %}
                             {% for possible_answer in indicator.answerchoice_set.all %}
-                                 <input type="checkbox" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
-                                 <label for="choice{{ forloop.counter }}">{{ possible_answer }}</label><br>
+                                <div class="checkbox choice row">
+                                    <label for="choice{{ forloop.counter }}">
+                                    <input type="checkbox" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
+                                    <i class="fa fa-2x icon-checkbox"></i>
+                                    {{ possible_answer }}</label><br>
+                                </div>
                             {% endfor %}
                             {% if error_message %}
                                     <div class="alert alert-warning" role="alert">
                                         {{ error_message }}
                                     </div>
                             {% endif %}
-                            <input type="submit" value="Vote">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="row">
+                                        {% for field in form %}
+                                        <div class="col-md-6 col-sm-6"><p class="name-bp">{{ field.label_tag }}</p></div>
+                                        <div class="col-md-6 col-sm-6">{{ field }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6"></div>
+                                        <div class="col-md-6 col-sm-6"><input class="btn subm-question" type="submit" value="Принять"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                 {% else %}
-                    <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
-                         {% csrf_token %}
-                         {{ form }}
-                         {% for possible_answer in indicator.answerchoice_set.all %}
-                                 <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
-                                 <label for="choice{{ forloop.counter }}">{{ possible_answer }}</label><br>
-                         {% endfor %}
-                        {% if error_message %}
-                                <div class="alert alert-warning" role="alert">
-                                    {{ error_message }}
+                       <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
+                            {% csrf_token %}
+                            {% if indicator.question %}
+                                <p class="name-question">{{ indicator.question }}</p>
+                            {% endif %}
+                            {% for possible_answer in indicator.answerchoice_set.all %}
+                                <div class="radio choice row">
+                                    <label for="choice{{ forloop.counter }}">
+                                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
+                                    <i class="fa fa-2x icon-radio"></i>
+                                    {{ possible_answer }}</label><br>
                                 </div>
-                        {% endif %}
-                        <input type="submit" value="Vote">
-                    </form>
+                            {% endfor %}
+                            {% if error_message %}
+                                    <div class="alert alert-warning" role="alert">
+                                        {{ error_message }}
+                                    </div>
+                            {% endif %}
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="row">
+                                        {% for field in form %}
+                                        <div class="col-md-6 col-sm-6"><p class="name-bp">{{ field.label_tag }}</p></div>
+                                        <div class="col-md-6 col-sm-6">{{ field }}</div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6"></div>
+                                        <div class="col-md-6 col-sm-6"><input class="btn subm-question" type="submit" value="Принять"></div>
+                                    </div>
+                                </div>
+                            </div>
+                       </form>
                 {% endif %}
                    <br>
                    <br>
             {% endif %}
-            <a href="#" class="btn">Принять</a>
         </div>
     </div>
   </div>

@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from indicators.models import Degree
 from .forms import ChooseBusinessProcessForm
-from .services import calculate_value_of_indicator
+from .services import calculate_value_of_indicator, calculate_values_of_digitalization
 
 
 def questionnaire(request, indicator_id):
@@ -26,6 +26,14 @@ def calculate_value_from_answer(request, indicator_id):
                       {'indicator': indicator, 'error_message': "Выберите вариант ответа!", 'form': form})
     return render(request, 'set_detail.html', {'interim_set': interim_set})
 
+def get_result_of_value(request):
+    result = calculate_values_of_digitalization(request)
+    interim_set = request.session.get(settings.SET_SESSION_ID)
+    print(result)
+    if result:
+        return render(request, 'result1.html', {'values': result})
+    else:
+        return render(request, 'set_detail.html', {'interim_set': interim_set, 'error_message': "Заполните опросные листы!"})
 
 
 

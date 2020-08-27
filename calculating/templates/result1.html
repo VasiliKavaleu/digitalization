@@ -1,0 +1,142 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block style %}
+		<link href="{% static 'css/grafik/bootstrap.min.css' %}" rel="stylesheet">
+		<!-- Font awesome CSS -->
+		<link href="{% static 'css/grafik/font-awesome.min.css' %}" rel="stylesheet">
+		<!-- Main CSS -->
+		<link href="{% static 'css/grafik/style-35.css' %}" rel="stylesheet">
+		<!-- Favicon -->
+        <link rel="shortcut icon" href="ui-35.html#">
+
+{% endblock %}
+{% block title %}Результат{% endblock %}
+{% block 'content' %}
+    <div class="section section-breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Результат оценки цифровизации {{ request.user.organisation }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <!-- UI # -->
+                <div class="ui-35">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            {% for value in values.values %}
+                                {% if value.1 %}
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- Bar Item -->
+                                        <div class="bar-item">
+                                            {% if 0 <= value.1 and value.1 < 30 %}
+                                                <div class="bar">
+                                                    <!-- Vertical bar -->
+                                                    <div class="vertical-bar">
+                                                                <div class="bar-content bg-red" data-limit="{{ value.1 }}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="details">
+                                                    <!-- Heading -->
+                                                    <h4>Members <span class="red">{{ value.1 }}%</span></h4>
+                                                    <!-- Paragraph -->
+                                                    <p>{{ value.0 }} </p>
+                                                </div>
+                                            {% elif 30 <= value.1 and value.1 < 50 %}
+                                                <div class="bar">
+                                                    <!-- Vertical bar -->
+                                                    <div class="vertical-bar">
+                                                                <div class="bar-content bg-yellow" data-limit="{{ value.1 }}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="details">
+                                                    <!-- Heading -->
+                                                    <h4> <span class="yellow">{{ value.1 }}%</span></h4>
+                                                    <!-- Paragraph -->
+                                                    <p>{{ value.0 }} </p>
+                                                </div>
+                                            {% else %}
+                                                <div class="bar">
+                                                    <!-- Vertical bar -->
+                                                    <div class="vertical-bar">
+                                                                <div class="bar-content bg-green" data-limit="{{ value.1 }}"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="details">
+                                                    <!-- Heading -->
+                                                    <h4> <span class="green">{{ value.1 }}%</span></h4>
+                                                    <!-- Paragraph -->
+                                                    <p>{{ value.0 }} </p>
+                                                </div>
+                                            {% endif %}
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="calltoaction-wrapper">
+                <a href="{% url 'calculating:get_result_of_value' %}" class="btn btn-orange">Сохранить результаты</a>
+            </div>
+        </div>
+    </div>
+
+		<!-- Javascript files -->
+		<!-- jQuery -->
+		<script src="{% static 'css/grafik/jquery.js' %}"></script>
+		<!-- Bootstrap JS -->
+		<script src="{% static 'css/grafik/bootstrap.min.js' %}"></script>
+		<!-- Placeholder JS -->
+		<script src="{% static 'css/grafik/placeholder.js' %}"></script>
+		<!-- Respond JS for IE8 -->
+		<script src="{% static 'css/grafik/respond.min.js' %}"></script>
+		<!-- HTML5 Support for IE -->
+		<script src="{% static 'css/grafik/html5shiv.js' %}"></script>
+
+		<script>
+			$(function() {
+
+				setTimeout(function(){
+
+					$('.bar-content').each(function() {
+						var me = $(this);
+						var perc = me.attr("data-limit");
+						var current_perc = 0;
+
+						if(!$(this).hasClass('stop')){
+
+							var progress = setInterval(function() {
+
+								if (current_perc>=perc) {
+									clearInterval(progress);
+								} else {
+									current_perc +=1;
+									me.css('height', (current_perc)+'%');
+								}
+
+							}, 15);
+
+							me.addClass('stop');
+
+						}
+
+					});
+
+				}, 0);
+
+			});
+		</script>
+
+{% endblock %}
