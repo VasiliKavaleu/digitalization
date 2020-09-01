@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
+
 from indicators.models import Degree
 
 
@@ -45,6 +46,7 @@ def calculate_values_of_digitalization(request):
         elif indicator['business_process'] == 'Управления':
             auxiliary_bp_values.append(indicator['value'])
         else:
+            # in case questionaire did not fild out
             return None
 
     digitalization_of_main_bp = calculate_rms_value(main_bp_values)
@@ -62,12 +64,7 @@ def calculate_values_of_digitalization(request):
         'digitalization_of_auxiliary_bp': ['Цифровизация вспомогательных бизнес процессов', transf_to_int_percent(digitalization_of_auxiliary_bp)],
         'total_digitalization': ['Цифровизация', transf_to_int_percent(total_digitalization)]
             }
-    # return {
-    #     'digitalization_of_manage_bp': digitalization_of_manage_bp,
-    #     'digitalization_of_main_bp': digitalization_of_main_bp,
-    #     'digitalization_of_auxiliary_bp': digitalization_of_auxiliary_bp,
-    #     'total_digitalization': total_digitalization
-    #         }
+
 
 
 def calculate_rms_value(arr):
@@ -81,6 +78,7 @@ def calculate_rms_value(arr):
         return result
 
 def transf_to_int_percent(value):
+    """Transformation to percent format."""
     if value:
         return int(round(value, 2)*100)
     return value

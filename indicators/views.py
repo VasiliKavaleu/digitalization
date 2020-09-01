@@ -6,7 +6,6 @@ from .models import Degree
 
 
 def main(request):
-    print(request.session.get(settings.SET_SESSION_ID))
     return render(request, 'main.html')
 
 def choose_indicator(request):

@@ -29,83 +29,111 @@
             <h3 class="name-indicator-question">{{ indicator.name }}</h3>
         {% endif %}
         <div class="service-wrapper">
-            {% if indicator.answerchoice_set.all %}
-                {% if indicator.multiple_answer %}
-                        <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
-                            {% csrf_token %}
+            {% if indicator.indicator_of_share %}
+                <form action="{% url 'calculating:calculate_value_of_indicator_share' indicator.id %}" method="POST" class="form-horizontal">
+                    {% csrf_token %}
+                    {% for input_question in indicator.answerinput_set.all %}
+                            <p>{{ input_question.quantity }}:</p>
+                            <div class="row">
+                                <div class="col-md-offset-5 col-sm-2 spac-beetw">{{ input_value_form.quantity }}</div>
+                            </div>
+                            <p>{{ input_question.total_quantity }}:</p>
+                            <div class="row">
+                                <div class="col-md-offset-5 col-sm-2 spac-beetw">{{ input_value_form.total_quantity }}</div>
+                            </div>
+                    {% endfor %}
+                    <p>{{ form.business_process.label }}</p>
+                    <div class="row">
+                        <div class="col-md-offset-5 col-sm-2 spac-beetw">{{ form.business_process }}</div>
+                    </div>
+                    {% if error_message %}
+                        <div class="alert alert-warning" role="alert">
+                            {{ error_message }}
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-md-offset-10 col-sm-4"><input class="btn subm-question" type="submit" value="Принять"></div>
+                    </div>
+                </form>
+            {% else %}
+                {% if indicator.answerchoice_set.all %}
+                    {% if indicator.multiple_answer %}
+                            <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
+                                {% csrf_token %}
 
-                            {% if indicator.question %}
-                                <p class="name-question">{{ indicator.question }}</p>
-                            {% endif %}
-                            {% for possible_answer in indicator.answerchoice_set.all %}
-                                <div class="checkbox choice row">
-                                    <label for="choice{{ forloop.counter }}">
-                                    <input type="checkbox" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
-                                    <i class="fa fa-2x icon-checkbox"></i>
-                                    {{ possible_answer }}</label><br>
-                                </div>
-                            {% endfor %}
-                            {% if error_message %}
-                                    <div class="alert alert-warning" role="alert">
-                                        {{ error_message }}
+                                {% if indicator.question %}
+                                    <p class="name-question">{{ indicator.question }}</p>
+                                {% endif %}
+                                {% for possible_answer in indicator.answerchoice_set.all %}
+                                    <div class="checkbox choice row">
+                                        <label for="choice{{ forloop.counter }}">
+                                        <input type="checkbox" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
+                                        <i class="fa fa-2x icon-checkbox"></i>
+                                        {{ possible_answer }}</label><br>
                                     </div>
-                            {% endif %}
-                            <div class="row">
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="row">
-                                        {% for field in form %}
-                                        <div class="col-md-6 col-sm-6"><p class="name-bp">{{ field.label_tag }}</p></div>
-                                        <div class="col-md-6 col-sm-6">{{ field }}</div>
-                                        {% endfor %}
+                                {% endfor %}
+                                {% if error_message %}
+                                        <div class="alert alert-warning" role="alert">
+                                            {{ error_message }}
+                                        </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="row">
+                                            {% for field in form %}
+                                            <div class="col-md-6 col-sm-6"><p class="name-bp">{{ field.label_tag }}</p></div>
+                                            <div class="col-md-6 col-sm-6">{{ field }}</div>
+                                            {% endfor %}
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6"></div>
-                                        <div class="col-md-6 col-sm-6"><input class="btn subm-question" type="submit" value="Принять"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                {% else %}
-                       <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
-                            {% csrf_token %}
-                            {% if indicator.question %}
-                                <p class="name-question">{{ indicator.question }}</p>
-                            {% endif %}
-                            {% for possible_answer in indicator.answerchoice_set.all %}
-                                <div class="radio choice row">
-                                    <label for="choice{{ forloop.counter }}">
-                                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
-                                    <i class="fa fa-2x icon-radio"></i>
-                                    {{ possible_answer }}</label><br>
-                                </div>
-                            {% endfor %}
-                            {% if error_message %}
-                                    <div class="alert alert-warning" role="alert">
-                                        {{ error_message }}
-                                    </div>
-                            {% endif %}
-                            <div class="row">
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="row">
-                                        {% for field in form %}
-                                        <div class="col-md-6 col-sm-6"><p class="name-bp">{{ field.label_tag }}</p></div>
-                                        <div class="col-md-6 col-sm-6">{{ field }}</div>
-                                        {% endfor %}
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6"></div>
+                                            <div class="col-md-6 col-sm-6"><input class="btn subm-question" type="submit" value="Принять"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6">
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6"></div>
-                                        <div class="col-md-6 col-sm-6"><input class="btn subm-question" type="submit" value="Принять"></div>
+                            </form>
+                    {% else %}
+                           <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
+                                {% csrf_token %}
+                                {% if indicator.question %}
+                                    <p class="name-question">{{ indicator.question }}</p>
+                                {% endif %}
+                                {% for possible_answer in indicator.answerchoice_set.all %}
+                                    <div class="radio choice row">
+                                        <label for="choice{{ forloop.counter }}">
+                                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
+                                        <i class="fa fa-2x icon-radio"></i>
+                                        {{ possible_answer }}</label><br>
+                                    </div>
+                                {% endfor %}
+                                {% if error_message %}
+                                        <div class="alert alert-warning" role="alert">
+                                            {{ error_message }}
+                                        </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="row">
+                                            {% for field in form %}
+                                            <div class="col-md-6 col-sm-6"><p class="name-bp">{{ field.label_tag }}</p></div>
+                                            <div class="col-md-6 col-sm-6">{{ field }}</div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6"></div>
+                                            <div class="col-md-6 col-sm-6"><input class="btn subm-question" type="submit" value="Принять"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                       </form>
+                           </form>
+                    {% endif %}
+                       <br>
+                       <br>
                 {% endif %}
-                   <br>
-                   <br>
             {% endif %}
         </div>
     </div>

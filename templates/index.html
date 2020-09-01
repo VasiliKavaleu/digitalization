@@ -54,14 +54,24 @@
 								<li class="active">
 									<a href="{% url 'main' %}">Главная</a>
 								</li>
-		<!--						<li>-->
-		<!--							<a href="features.html">Показатели</a>-->
-		<!--						</li>-->
 								<li>
 									<a href="#">Описание методики</a>
 								</li>
 								<li>
 									<a href="{% url 'contact_us' %}">Контакты</a>
+								</li>
+								<li class="has-submenu">
+									<a href="#">Личный кабинет</a>
+									<div class="mainmenu-submenu">
+<!--										<div class="mainmenu-submenu-inner">-->
+											<div>
+												<ul>
+													<li><a  href="#"><h4 class="sb-menu-title">Управление аккаунтом</h4></a></li>
+													<li><a  href="{% url 'calculating:show_history_of_evaluations' %}"><h4 class="sb-menu-title">История измерений</h4></a></li>
+												</ul>
+											</div>
+<!--										</div>&lt;!&ndash; /mainmenu-submenu-inner &ndash;&gt;-->
+									</div><!-- /mainmenu-submenu -->
 								</li>
 							</ul>
 						</nav>
@@ -91,6 +101,7 @@
 								<li><a href="#">Измерение показателя цифровизации</a></li>
 								<li><a href="#">Описание методики</a></li>
 								<li><a href="#">Написать нам</a></li>
+							</ul>
 						</div>
 
 						<div class="col-footer col-md-4 col-xs-6">

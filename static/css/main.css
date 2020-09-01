@@ -2424,8 +2424,8 @@ span.color-red {
   display: none;
   position: absolute;
   background: #4f8db3;
-  width: 100%;
-  left: 0;
+/*  width: 25%;*/
+/*  left: 0;*/
   z-index: 999;
   -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
@@ -2454,13 +2454,13 @@ span.color-red {
 }
 .mainmenu-open .mainmenu-submenu {
   display: block;
-  padding-bottom: 3em;
+/*  padding-bottom: 3em;*/
 }
 .mainmenu-submenu h4 {
   color: #bad2e1;
-  padding: 1em 0 0.6em;
-  margin-left: 20px;
-  font-size: 160%;
+/*  padding: 1em 0 0.6em;*/
+/*  margin-left: 20px;*/
+/*  font-size: 160%;*/
   font-weight: 300;
 }
 .mainmenu-submenu ul {

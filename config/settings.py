@@ -120,3 +120,4 @@ STATICFILES_DIRS = [STATIC_DIR]
 AUTH_USER_MODEL = 'account.CustomUser'
 
 SET_SESSION_ID = 'set'
+RESULT_SESSION_ID = 'result'

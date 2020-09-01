@@ -97,3 +97,25 @@ p.name-bp {
 .alert.alert-warning {
     text-align: center;
 }
+
+h4.sb-menu-title {
+    margin-right: 20px;
+}
+
+.col-md-6.col-sm-6.col-md-offset-3.result-view {
+    background-color: rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 20px 0px black;
+    border-radius: 10px;
+}
+
+h1.title-saved-result {
+    text-align: center;
+}
+
+h4.sb-menu-title:hover {
+    color: white;
+}
+
+.spac-beetw {
+    margin-bottom: 20px;
+}

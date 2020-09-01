@@ -26,7 +26,8 @@ class Set(object):
             del self.set[indicator_id]
         self.save()
 
-
+    def save(self):
+        self.session.modified = True
 
 
 
@@ -42,5 +43,3 @@ class Set(object):
         del self.session[settings.SET_SESSION_ID]
         self.save()
 
-    def save(self): # not used
-        self.session.modified = True

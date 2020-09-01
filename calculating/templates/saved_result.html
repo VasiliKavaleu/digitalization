@@ -1,0 +1,103 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block style %}
+		<link href="{% static 'css/grafik/bootstrap.min.css' %}" rel="stylesheet">
+		<!-- Font awesome CSS -->
+		<link href="{% static 'css/grafik/font-awesome.min.css' %}" rel="stylesheet">
+
+
+		<!-- Main CSS -->
+		<link href="{% static 'css/grafik/style-310.css' %}" rel="stylesheet">
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="ui-310.html#">
+
+{% endblock %}
+{% block title %}Результат{% endblock %}
+{% block 'content' %}
+	<div class="section section-breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="title-saved-result">История оценки цифровизации {{ request.user.organisation }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+	<body>
+	<div class="section">
+		<din class="container">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-md-offset-3 result-view">
+							{% for result_of_digitalization in results_of_digitalization %}
+		<!-- UI - X Starts -->
+			<div class="ui-310">
+				<div class="container-fluid">
+					<!-- Item -->
+					<div class="ui-item clearfix">
+						<!-- Heading -->
+						{% if 0 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 30 %}
+							<h3 class="bg-red"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+							<!-- Content -->
+							<div class="ui-content">
+								<!-- Heading -->
+									<h4 class="bg-red"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+							</div>
+						{% elif 30 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 50 %}
+							<h3 class="bg-yellow"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+							<!-- Content -->
+							<div class="ui-content">
+								<!-- Heading -->
+									<h4 class="bg-yellow"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+							</div>
+						{% else %}
+							<h3 class="bg-green"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+							<!-- Content -->
+							<div class="ui-content">
+								<!-- Heading -->
+									<h4 class="bg-green"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<!-- UI - X Ends -->
+		{% endfor %}
+				</div>
+			</div>
+		</din>
+	</div>
+
+
+
+
+		<!-- Javascript files -->
+		<!-- jQuery -->
+		<script src="{% static 'css/grafik/jquery.js' %}"></script>
+		<!-- Bootstrap JS -->
+		<script src="{% static 'css/grafik/bootstrap.min.js' %}"></script>
+		<!-- Placeholder JS -->
+		<script src="{% static 'css/grafik/placeholder.js' %}"></script>
+		<!-- Respond JS for IE8 -->
+		<script src="{% static 'css/grafik/respond.min.js' %}"></script>
+		<!-- HTML5 Support for IE -->
+		<script src="{% static 'css/grafik/html5shiv.js' %}"></script>
+		<script>
+		<!-- Animation -->
+		$(document).ready(function(){
+			<!-- For Each Heading -->
+			$(".ui-content h4").each(function(){
+				var max = $(this).attr("data-valuemax");
+				$(this).prop('Counter', 0 ).animate({ width: max + "%", Counter: max }, {			//Min value 0 and Max value attribute value
+					duration: 2000,
+					easing: 'swing',
+					step: function () {
+					  $(this).children("span").text(Math.ceil(this.Counter) + "%");		//Count Number
+					}
+				});
+			});
+		});
+		</script>
+
+
+{% endblock %}

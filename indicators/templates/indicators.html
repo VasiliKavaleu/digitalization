@@ -18,17 +18,27 @@
                             {% if indicators %}
                                 {% for indicator in indicators %}
                                     <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse22">
-                                                {{ indicator.name }}
-                                            </a>
-                                            {% if indicator.id in list_id_in_set %}
-                                                <a href="{% url 'set:remove_from_set' indicator.id %}" class="btn">Удалить</a>
-                                            {% else %}
-                                                <a href="{% url 'set:add_indicator' indicator.id %}" class="btn">Выбрать</a>
-                                            {% endif %}
-                                        </div>
-                                        <div id="collapse22" class="accordion-body collapse" style="height: 0px;">
+
+                                            <div class="panel-heading">
+                                                <div class="row ">
+                                                    <div class="col-md-10 col-sm-6">
+                                                        <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse{{ indicator.id }}">
+                                                            {{ indicator.name }}
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-2 col-sm-6">
+
+                                                            {% if indicator.id in list_id_in_set %}
+                                                                <a href="{% url 'set:remove_from_set' indicator.id %}" class="btn chs-del">Удалить</a>
+                                                            {% else %}
+                                                                <a href="{% url 'set:add_indicator' indicator.id %}" class="btn chs-del">Выбрать</a>
+                                                            {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <div id="collapse{{ indicator.id }}" class="accordion-body collapse" style="height: 0px;">
                                             <div class="accordion-inner">
                                                 <div class="answer">Краткое описание:</div>
                                                 <p>{{ indicator.description }}</p>
@@ -37,6 +47,7 @@
                                     </div>
                                 {% endfor %}
                             {% endif %}
+
 						</div>
 					</div>
 				</div>
