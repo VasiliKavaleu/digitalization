@@ -26,43 +26,51 @@
     </div>
 	<body>
 	<div class="section">
+					                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-success" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
 		<din class="container">
+
 			<div class="row">
 				<div class="col-md-6 col-sm-6 col-md-offset-3 result-view">
-							{% for result_of_digitalization in results_of_digitalization %}
-		<!-- UI - X Starts -->
-			<div class="ui-310">
-				<div class="container-fluid">
-					<!-- Item -->
-					<div class="ui-item clearfix">
-						<!-- Heading -->
-						{% if 0 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 30 %}
-							<h3 class="bg-red"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
-							<!-- Content -->
-							<div class="ui-content">
-								<!-- Heading -->
-									<h4 class="bg-red"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+					{% for result_of_digitalization in results_of_digitalization %}
+					<!-- UI - X Starts -->
+						<div class="ui-310">
+							<div class="container-fluid">
+								<!-- Item -->
+								<div class="ui-item clearfix">
+									<!-- Heading -->
+									{% if 0 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 30 %}
+										<h3 class="bg-red"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+										<!-- Content -->
+										<div class="ui-content">
+											<!-- Heading -->
+												<h4 class="bg-red"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+										</div>
+									{% elif 30 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 50 %}
+										<h3 class="bg-yellow"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+										<!-- Content -->
+										<div class="ui-content">
+											<!-- Heading -->
+												<h4 class="bg-yellow"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+										</div>
+									{% else %}
+										<h3 class="bg-green"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+										<!-- Content -->
+										<div class="ui-content">
+											<!-- Heading -->
+												<h4 class="bg-green"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+										</div>
+									{% endif %}
+								</div>
 							</div>
-						{% elif 30 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 50 %}
-							<h3 class="bg-yellow"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
-							<!-- Content -->
-							<div class="ui-content">
-								<!-- Heading -->
-									<h4 class="bg-yellow"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
-							</div>
-						{% else %}
-							<h3 class="bg-green"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
-							<!-- Content -->
-							<div class="ui-content">
-								<!-- Heading -->
-									<h4 class="bg-green"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
-							</div>
-						{% endif %}
-					</div>
-				</div>
-			</div>
-			<!-- UI - X Ends -->
-		{% endfor %}
+						</div>
+						<!-- UI - X Ends -->
+					{% endfor %}
 				</div>
 			</div>
 		</din>

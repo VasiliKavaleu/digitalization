@@ -34,3 +34,22 @@ class LoginForm(forms.Form):
 	password = forms.CharField(max_length=254, widget=forms.PasswordInput(
 		attrs={'class': 'form-control'}
 	))
+
+
+class UpdateUserData(forms.Form):
+	first_name = forms.CharField(max_length=254, label='Имя', widget=forms.TextInput(
+		attrs={'class': 'form-control'}
+	))
+	last_name = forms.CharField(max_length=254, label='Фамилия', widget=forms.TextInput(
+		attrs={'class': 'form-control'}
+	))
+	email = forms.EmailField(max_length=254, label='Email адрес', help_text='Это поле обязательно', widget=forms.TextInput(
+		attrs={'class': 'form-control'}
+	))
+	organisation = forms.CharField(max_length=254, label='Организация', widget=forms.TextInput(
+		attrs={'class': 'form-control'}
+	))
+
+	class Meta:
+		model = CustomUser
+		fields = ('first_name', 'last_name', 'organisation', 'email')

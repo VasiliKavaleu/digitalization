@@ -1,5 +1,6 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.conf import settings
+from django.contrib import messages
 
 from account.models import UserResultDigitalization
 from .result import ResultSession
@@ -35,6 +36,7 @@ def get_result_of_value(request):
     if result:
         result_session = ResultSession(request)
         result_session.save_to_result_session(result)
+        print(result)
         return render(request, 'result1.html', {'values': result})
     else:
         return render(request, 'set_detail.html', {'interim_set': interim_set, 'error_message': "Заполните опросные листы!"})
@@ -44,14 +46,13 @@ def save_result(request):
     result_session = request.session.get(settings.RESULT_SESSION_ID)
     data = UserResultDigitalization(user=request.user, digitalization=result_session['digitalization'])
     data.save()
-    # return render(request, 'result1.html')
+    messages.success(request, 'Результат успешно сохранен!')
     return redirect('calculating:show_history_of_evaluations')
 
 
+
 def show_history_of_evaluations(request):
-    results_of_digitalization = UserResultDigitalization.objects.filter(user=request.user)
-    for i in results_of_digitalization:
-        print(i)
+    results_of_digitalization = UserResultDigitalization.objects.filter(user=request.user).order_by('-date_added')
     return render(request, 'saved_result.html', {'results_of_digitalization': results_of_digitalization})
 
 
@@ -63,7 +64,7 @@ def calculate_value_of_indicator_share(request, indicator_id):
         if input_data.is_valid():
             quantity = input_data.cleaned_data["quantity"]
             total_quantity = input_data.cleaned_data["total_quantity"]
-            if quantity < total_quantity:
+            if quantity <= total_quantity:
                 value_of_indicator = str(quantity/total_quantity)
                 save_value_of_indicator_to_set(request, interim_set, indicator_id, value_of_indicator, business_process)
                 return render(request, 'set_detail.html', {'interim_set': interim_set})

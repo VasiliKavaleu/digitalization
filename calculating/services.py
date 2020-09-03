@@ -44,7 +44,7 @@ def calculate_values_of_digitalization(request):
         elif indicator['business_process'] == 'Вспомогательные':
             auxiliary_bp_values.append(indicator['value'])
         elif indicator['business_process'] == 'Управления':
-            auxiliary_bp_values.append(indicator['value'])
+            manage_bp_values.append(indicator['value'])
         else:
             # in case questionaire did not fild out
             return None
@@ -79,6 +79,6 @@ def calculate_rms_value(arr):
 
 def transf_to_int_percent(value):
     """Transformation to percent format."""
-    if value:
+    if value or value == 0:
         return int(round(value, 2)*100)
     return value

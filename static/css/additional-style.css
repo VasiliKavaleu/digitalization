@@ -96,6 +96,7 @@ p.name-bp {
 
 .alert.alert-warning {
     text-align: center;
+    margin-top: 25px;
 }
 
 h4.sb-menu-title {
@@ -118,4 +119,12 @@ h4.sb-menu-title:hover {
 
 .spac-beetw {
     margin-bottom: 20px;
+}
+
+.alert.alert-success {
+    text-align: center;
+}
+
+iframe#map {
+    width: 650px;
 }

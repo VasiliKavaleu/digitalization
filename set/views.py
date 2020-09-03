@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.contrib import messages
 
 from indicators.models import Degree
 from .set import Set
@@ -9,6 +9,9 @@ from django.conf import settings
 def set_detail(request):
     """Reflecting content of set."""
     interim_set = request.session.get(settings.SET_SESSION_ID)
+    if not interim_set:
+        messages.error(request, 'Выберите показатель!')
+        return redirect('choose_indicator')
     return render(request, 'set_detail.html', {'interim_set': interim_set})
 
 
