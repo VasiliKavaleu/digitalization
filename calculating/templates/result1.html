@@ -10,6 +10,10 @@
 		<!-- Favicon -->
         <link rel="shortcut icon" href="ui-35.html#">
 
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 {% endblock %}
 {% block title %}Результат{% endblock %}
 {% block 'content' %}
@@ -87,12 +91,34 @@
                 </div>
 
             </div>
-            <div class="calltoaction-wrapper">
-                <a href="{% url 'calculating:save_result' %}" class="btn btn-orange">Сохранить результаты</a>
-            </div>
+
         </div>
     </div>
+            <div class="section section-white">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="calltoaction-wrapper">
+                            <form class="form-horizontal" role="form" method="POST" action="" >
+								{% csrf_token %}
+                                <div class="row">
+                                            <div class="checkbox choice row">
+                                                <label for="send-flag">
+                                                <input type="checkbox" name="send_email" id="send-flag" value="agree">
+                                                <i class="fa fa-2x icon-checkbox"></i>
+                                                 <h4>Отправить результат на почту.</h4></label>
+                                            </div>
+                                        <div class="col-md-6 wrapper-result-btn">
+                                            <a href="{% url 'calculating:save_result' %}" class="btn-main btn-secondary">Сохранить результат</a>
+                                        </div>
+                                </div>
+		        			</form>
 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 		<!-- Javascript files -->
 		<!-- jQuery -->
 		<script src="{% static 'css/grafik/jquery.js' %}"></script>

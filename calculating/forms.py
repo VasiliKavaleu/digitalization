@@ -15,3 +15,4 @@ class ChooseBusinessProcessForm(forms.Form):
 class InputValueForm(forms.Form):
 	quantity = forms.IntegerField(min_value=0, widget=forms.NumberInput(attrs={"class": "form-control"}))
 	total_quantity = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={"class": "form-control"}))
+

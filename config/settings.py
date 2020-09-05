@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from .secret import EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -121,3 +122,9 @@ AUTH_USER_MODEL = 'account.CustomUser'
 
 SET_SESSION_ID = 'set'
 RESULT_SESSION_ID = 'result'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
+EMAIL_PORT = 587

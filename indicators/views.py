@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
+from django.core.mail import send_mail, BadHeaderError
+from django.contrib import messages
 
 from set.set import Set
 from .models import Degree
+from .forms import ContactForm
 
 
 def main(request):
@@ -18,7 +21,26 @@ def choose_indicator(request):
     return redirect('account:login_user')
 
 def contact_us(request):
-    return render(request, 'contact.html')
+    """Sending email."""
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            organisation = form.cleaned_data['organisation']
+            email = form.cleaned_data['email']
+            message_in = form.cleaned_data['message']
 
+            recipients = ['WASILIY10K@yandex.ru']
+            subject = 'Портал цифровизации'
+            message_out = name + '\n' + email + '\n' + organisation + '\n' + '\n' + message_in
 
-
+            try:
+                send_mail(subject, message_out, settings.EMAIL_HOST_USER, recipients)
+            except BadHeaderError:
+                return redirect('contact_us')
+            else:
+                messages.success(request, 'Сообщение успешно отправлено!')
+                return redirect('contact_us')
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', {'form': form})

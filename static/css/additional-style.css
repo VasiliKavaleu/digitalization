@@ -128,3 +128,99 @@ h4.sb-menu-title:hover {
 iframe#map {
     width: 650px;
 }
+
+textarea#id_message {
+    height: 150px;
+}
+
+
+
+/* Main Button */
+ .btn-main {
+ border-radius: 100px;
+ font-size: 13px;
+ font-weight: bold;
+ letter-spacing: 1px;
+ padding: 17px 39px;
+ text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
+ text-transform: uppercase;
+ box-shadow: 0 4px 9px 0 rgba(0, 0, 0, 0.2);
+ color: antiquewhite;
+}
+
+ .btn-secondary{
+ /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#797b7f+0,b5b8bf+50,8e9397+51,8e9397+71,828589+100 */
+ background: #797b7f;
+ /* Old browsers */
+ background: -moz-linear-gradient(-45deg, #797b7f 0%, #b5b8bf 50%, #8e9397 51%, #8e9397 71%, #828589 100%);
+ /* FF3.6-15 */
+ background: -webkit-linear-gradient(-45deg, #797b7f 0%,#b5b8bf 50%,#8e9397 51%,#8e9397 71%,#828589 100%);
+ /* Chrome10-25,Safari5.1-6 */
+ background: linear-gradient(135deg, #797b7f 0%,#b5b8bf 50%,#8e9397 51%,#8e9397 71%,#828589 100%);
+ /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#797b7f', endColorstr='#828589',GradientType=1 );
+ /* IE6-9 fallback on horizontal gradient */
+ background-size: 400% 400%;
+ -webkit-animation: AnimationName 3s ease infinite;
+ -moz-animation: AnimationName 3s ease infinite;
+ animation: AnimationName 3s ease infinite;
+ -webkit-animation: AnimationName 3s ease infinite;
+ -moz-animation: AnimationName 3s ease infinite;
+ animation: AnimationName 3s ease infinite;
+ border: medium none;
+}
+
+ @-webkit-keyframes AnimationName {
+ 0%{
+ background-position:0% 31%
+ }
+ 50%{
+ background-position:100% 70%
+ }
+ 100%{
+ background-position:0% 31%
+ }
+}
+ @-moz-keyframes AnimationName {
+ 0%{
+ background-position:0% 31%
+ }
+ 50%{
+ background-position:100% 70%
+ }
+ 100%{
+ background-position:0% 31%
+ }
+}
+ @keyframes AnimationName {
+ 0%{
+ background-position:0% 31%
+ }
+ 50%{
+ background-position:100% 70%
+ }
+ 100%{
+ background-position:0% 31%
+ }
+}
+ .btn-outline-light:hover{
+ color: #3f345f;
+}
+ .btn-outline-warning:hover{
+ color: #ffffff;
+}
+ .btn-sm {
+ font-size: 12px;
+ padding: 11px 25px;
+}
+ .elements-page-btn .btn {
+ margin: 6px 3px;
+}
+
+a.btn-main.btn-secondary:hover {
+    color: mintcream;
+}
+
+.col-md-6.wrapper-result-btn {
+    margin-top: 30px;
+}

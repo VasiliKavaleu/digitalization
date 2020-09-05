@@ -26,13 +26,13 @@
     </div>
 	<body>
 	<div class="section">
-					                            {% if messages %}
-                                {% for message in messages %}
-                                    <div class="alert alert-success" role="alert">
-                                        {{ message }}
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-success" role="alert">
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endif %}
 		<din class="container">
 
 			<div class="row">
