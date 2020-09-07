@@ -103,11 +103,19 @@ h4.sb-menu-title {
     margin-right: 20px;
 }
 
-.col-md-6.col-sm-6.col-md-offset-3.result-view {
+/*.col-md-6.col-sm-6.col-md-offset-3.result-view {
     background-color: rgba(0, 0, 0, 0.05);
     box-shadow: 0px 0px 20px 0px black;
     border-radius: 10px;
 }
+*/
+
+.container-fluid:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 3px 0px black;
+    border-radius: 10px;
+}
+
 
 h1.title-saved-result {
     text-align: center;
@@ -221,6 +229,46 @@ a.btn-main.btn-secondary:hover {
     color: mintcream;
 }
 
-.col-md-6.wrapper-result-btn {
-    margin-top: 30px;
+
+
+button.btn.register {
+    border-color: #6c757d;
+    border-radius: 100px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 4px 9px 0 rgba(0, 0, 0, 0.2);
+    padding: 11px 25px;
+    font-size: 12px;
+    color: #6c757d;
+    background-color: transparent;
+}
+
+button.btn.register:hover {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+
+p.up-info {
+    color: darkslategrey;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+li.up-in {
+    padding: 3px;
+}
+
+p.up-info.act:hover {
+    color: black;
+    box-shadow: 0 0 0px 0px black;
+    text-shadow: 1px 1px 2px lavenderblush;
+
+}
+
+h1.header-text {
+    text-align: center;
 }

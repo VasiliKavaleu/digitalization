@@ -99,7 +99,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="calltoaction-wrapper">
-                            <form class="form-horizontal" role="form" method="POST" action="" >
+                            <form class="form-horizontal" role="form" method="POST" action="{% url 'calculating:save_result' %}" >
 								{% csrf_token %}
                                 <div class="row">
                                             <div class="checkbox choice row">
@@ -109,7 +109,7 @@
                                                  <h4>Отправить результат на почту.</h4></label>
                                             </div>
                                         <div class="col-md-6 wrapper-result-btn">
-                                            <a href="{% url 'calculating:save_result' %}" class="btn-main btn-secondary">Сохранить результат</a>
+                                            <button  class="btn-main btn-secondary" type = "submit">Сохранить результат</button>
                                         </div>
                                 </div>
 		        			</form>

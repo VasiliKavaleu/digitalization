@@ -1,6 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.conf import settings
 from django.contrib import messages
+import weasyprint
+from django.template.loader import render_to_string
+from django.core.mail import send_mail, BadHeaderError
 
 from account.models import UserResultDigitalization
 from .result import ResultSession
@@ -41,13 +45,39 @@ def get_result_of_value(request):
     else:
         return render(request, 'set_detail.html', {'interim_set': interim_set, 'error_message': "Заполните опросные листы!"})
 
+from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMessage
 
 def save_result(request):
     result_session = request.session.get(settings.RESULT_SESSION_ID)
-    data = UserResultDigitalization(user=request.user, digitalization=result_session['digitalization'])
-    data.save()
-    messages.success(request, 'Результат успешно сохранен!')
-    return redirect('calculating:show_history_of_evaluations')
+    if request.method == 'POST':
+        agreement_to_send = request.POST['send_email']
+        if agreement_to_send == 'agree':
+
+
+            # html_string = render_to_string('pdf.html', {'result_session': result_session}) #first
+            # response = HttpResponse(content_type='application/pdf')
+            # response['Content-Disposition'] = 'filename="order.pdf"'
+            # weasyprint.HTML(string=html_string).write_pdf(response)
+            # return response
+
+            html_string = render_to_string('pdf.html', {'result_session': result_session})  # second
+            html = weasyprint.HTML(string=html_string)
+            result_pdf = html.write_pdf('test.pdf')
+            recipients = ['WASILIY10K@yandex.ru']
+            subject = 'Портал цифровизации'
+            msg = EmailMessage(subject, subject, settings.EMAIL_HOST_USER, recipients)
+            msg.attach_file('test.pdf')
+            msg.send()
+            return redirect('calculating:show_history_of_evaluations')
+
+
+        else:
+            result_session = request.session.get(settings.RESULT_SESSION_ID)
+            data = UserResultDigitalization(user=request.user, digitalization=result_session['digitalization'])
+            data.save()
+            messages.success(request, 'Результат успешно сохранен!')
+            return redirect('calculating:show_history_of_evaluations')
 
 
 

@@ -2531,11 +2531,8 @@ span.color-red {
 }
 .menuextras li {
   float: left;
-  padding: 0 8px;
 }
-.menuextras .extras li {
-  padding: 0 8px;
-}
+
 .menuextras .extras li a {
   color: #333;
 }

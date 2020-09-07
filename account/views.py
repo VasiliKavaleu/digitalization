@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
-from . forms import SignUpForm, LoginForm, UpdateUserData
-from .models import CustomUser
+from . forms import SignUpForm, LoginForm, UpdateUserData, ChooseDepatmentForm
+from .models import CustomUser, Depatment
 
 def login_user(request):
     form = LoginForm()
@@ -26,15 +26,18 @@ def logout_user(request):
 
 def register(request):
     form = SignUpForm()
+    depatment_form = ChooseDepatmentForm()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
+            created_user = CustomUser.objects.get(email=request.POST['email'])
+            depatment = Depatment.objects.create(name=request.POST['name'], user=created_user)
             messages.success(request, 'Вы успешно зарегистрированы!')
             return render(request, 'register.html', {'form': form})
         else:
             return render(request, 'register.html', {'form': form})
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'register.html', {'form': form, 'depatment_form':depatment_form})
 
 def update_user(request):
     try:

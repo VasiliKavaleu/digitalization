@@ -37,13 +37,13 @@
 							<div class="extras">
 								<ul>
 									{% if user.is_authenticated %}
-										<li><b>Здравствуй, {{user.first_name}} {{user.last_name}}!</b></li>
-										<li><b>|</b></li>
-										<li><a href="{% url 'account:logout_user' %}"><b>Выйти</b></a></li>
+										<li class="up-in"><p class="up-info">Здравствуй, {{user.first_name}} {{user.last_name}}!</p></li>
+										<li class="up-in"><p class="up-info">|</p></li>
+										<li class="up-in"><a  class="up-info act" href="{% url 'account:logout_user' %}"><p class="up-info act">Выйти</p></a></li>
 									{% else %}
-										<li><a href="{% url 'account:login_user' %}"><b>Войти</b></a></li>
-										<li><b>|</b></li>
-										<li><a href="{% url 'account:register' %}"><b>Зарегистрироваться</b></a></li>
+										<li class="up-in act"><a href="{% url 'account:login_user' %}"><p class="up-info act">Войти</p></a></li>
+										<li class="up-in"><p class="up-info">|</p></li>
+										<li class="up-in act"><a  href="{% url 'account:register' %}"><p class="up-info act">Зарегистрироваться</p></a></li>
 									{% endif %}
 								</ul>
 							</div>
