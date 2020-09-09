@@ -1,7 +1,74 @@
+{% load static %}
+{% load mathfilters %}
 <!DOCTYPE html>
 <html >
+
 <body>
-    <h3>{{ result_session }}</h3>
-    <h1>fgddddddddddd</h1>
+    <h2>Результат оценки цифровизации {{ organisation }}</h2>
+<table>
+  <tr>
+    <th>Наименование показателя</th>
+    <th>Значение</th>
+  </tr>
+    {% if total_values_digitalization.indicatormanagebp_set %}
+        {% for managebp in total_values_digitalization.indicatormanagebp_set.all %}
+            <tr>
+                <td>{{ managebp.name }}</td>
+                <td>{{ managebp.value_of_indicator }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    {% if total_values_digitalization.digit_value_manage_bp %}
+            <tr>
+                <td><b>Цифровизация БП управления</b></td>
+                <td><b>{{ total_values_digitalization.digit_value_manage_bp }}</b></td>
+            </tr>
+    {% endif %}
+
+
+    {% if total_values_digitalization.indicatormainbp_set %}
+        {% for mainbp in total_values_digitalization.indicatormainbp_set.all %}
+            <tr>
+                <td>{{ mainbp.name }}</td>
+                <td>{{ mainbp.value_of_indicator }}</td>
+            </tr>
+        {% endfor %}
+    {% endif %}
+    {% if total_values_digitalization.digit_value_main_bp %}
+            <tr>
+                <td><b>Цифровизация основных БП</b></td>
+                <td><b>{{ total_values_digitalization.digit_value_main_bp|div:100 }}</b></td>
+            </tr>
+    {% endif %}
+
+
+    {% if total_values_digitalization.indicatorauxiliarybp_set %}
+    {% for auxilbp in total_values_digitalization.indicatorauxiliarybp_set.all %}
+        <tr>
+            <td>{{ auxilbp.name }}</td>
+            <td>{{ auxilbp.value_of_indicator }}</td>
+        </tr>
+    {% endfor %}
+    {% endif %}
+    {% if total_values_digitalization.digit_value_auxiliary_bp %}
+            <tr>
+                <td><b>Цифровизация вспомогательных БП</b></td>
+                <td><b>{{ total_values_digitalization.digit_value_auxiliary_bp|div:100 }}</b></td>
+            </tr>
+    {% endif %}
+    <tr>
+        <td><b>Цифровизация </b></td>
+        <td><b>{{ total_values_digitalization.digitalization|div:100 }}</b></td>
+    </tr>
+</table>
+    <div class="date">
+        <h5 class="employee">{{ total_values_digitalization.date_added|date:"d.m.Y" }}</h5>
+    </div>
+    <div class="name">
+            <h5 class="employee">{{ full_name}}</h5>
+            <h5 class="employee">{{ email }}</h5>
+    </div>
+
+
 </body>
 </html>

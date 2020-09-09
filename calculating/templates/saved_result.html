@@ -4,14 +4,10 @@
 		<link href="{% static 'css/grafik/bootstrap.min.css' %}" rel="stylesheet">
 		<!-- Font awesome CSS -->
 		<link href="{% static 'css/grafik/font-awesome.min.css' %}" rel="stylesheet">
-
-
 		<!-- Main CSS -->
 		<link href="{% static 'css/grafik/style-310.css' %}" rel="stylesheet">
-
 		<!-- Favicon -->
 		<link rel="shortcut icon" href="ui-310.html#">
-
 {% endblock %}
 {% block title %}Результат{% endblock %}
 {% block 'content' %}
@@ -34,7 +30,6 @@
 			{% endfor %}
 		{% endif %}
 		<din class="container">
-
 			<div class="row">
 				<div class="col-md-6 col-sm-6 col-md-offset-3 result-view">
 					{% for result_of_digitalization in results_of_digitalization %}
@@ -45,26 +40,32 @@
 								<div class="ui-item clearfix">
 									<!-- Heading -->
 									{% if 0 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 30 %}
-										<h3 class="bg-red"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+										<h3 class="bg-red"><a href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
 										<!-- Content -->
+										<a class="result-to-pdf" href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">
 										<div class="ui-content">
 											<!-- Heading -->
 												<h4 class="bg-red"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
 										</div>
+										</a>
 									{% elif 30 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 50 %}
-										<h3 class="bg-yellow"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+										<h3 class="bg-yellow"><a href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
 										<!-- Content -->
+										<a class="result-to-pdf" href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">
 										<div class="ui-content">
 											<!-- Heading -->
 												<h4 class="bg-yellow"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
 										</div>
+										</a>
 									{% else %}
-										<h3 class="bg-green"><a href="ui-310.html#">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+										<h3 class="bg-green"><a href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
 										<!-- Content -->
+										<a class="result-to-pdf" href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">
 										<div class="ui-content">
 											<!-- Heading -->
 												<h4 class="bg-green"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
 										</div>
+										</a>
 									{% endif %}
 								</div>
 							</div>
@@ -75,8 +76,6 @@
 			</div>
 		</din>
 	</div>
-
-
 
 
 		<!-- Javascript files -->

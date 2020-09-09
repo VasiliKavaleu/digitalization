@@ -52,11 +52,49 @@ class UserResultDigitalization(models.Model):
     user = models.ForeignKey('CustomUser', verbose_name='Организация', on_delete=models.SET_NULL, null=True)
     date_added = models.DateTimeField('', auto_now_add=True)
     digitalization = models.IntegerField('Цифровизация', null=True, blank=True)
+    digit_value_main_bp = models.IntegerField('Цифровизация основных БП', null=True, blank=True)
+    digit_value_manage_bp = models.IntegerField('Цифровизация БП управления', null=True, blank=True)
+    digit_value_auxiliary_bp = models.IntegerField('Цифровизация вспомогательных БП', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Результат измерений'
         verbose_name_plural = 'Результаты измерений'
 
     def __str__(self):
-        return self.user.organisation
+        return self.user.organisation + ' ' + str(self.date_added)
 
+class IndicatorMainBP(models.Model):
+    total_digitalization_value = models.ForeignKey('UserResultDigitalization', verbose_name='Показатели основных БП', on_delete=models.CASCADE)
+    name = models.TextField('Частный показатель основных БП')
+    value_of_indicator = models.DecimalField('Значение частного показателя', max_digits=3, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'Частный показатель основных БП'
+        verbose_name_plural = 'Частные показатели основных БП'
+
+    def __str__(self):
+        return self.UserResultDigitalization.user.organisation
+
+class IndicatorManageBP(models.Model):
+    total_digitalization_value = models.ForeignKey('UserResultDigitalization', verbose_name='Показатель БП управления', on_delete=models.CASCADE)
+    name = models.TextField('Частный показатель БП управления')
+    value_of_indicator = models.DecimalField('Значение частного показателя', max_digits=3, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'Частный показатель БП управления'
+        verbose_name_plural = 'Частные показатели БП управления'
+
+    def __str__(self):
+        return self.UserResultDigitalization.user.organisation
+
+class IndicatorAuxiliaryBP(models.Model):
+    total_digitalization_value = models.ForeignKey('UserResultDigitalization', verbose_name='Показатель вспомогальных БП', on_delete=models.CASCADE)
+    name = models.TextField('Частный показатель БП управления')
+    value_of_indicator = models.DecimalField('Значение частного показателя', max_digits=3, decimal_places=2)
+
+    class Meta:
+        verbose_name = 'Частный показатель вспомогательных БП'
+        verbose_name_plural = 'Частные показатели вспомогательных БП'
+
+    def __str__(self):
+        return self.name

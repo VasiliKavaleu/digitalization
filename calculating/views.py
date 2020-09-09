@@ -6,7 +6,7 @@ import weasyprint
 from django.template.loader import render_to_string
 from django.core.mail import send_mail, BadHeaderError
 
-from account.models import UserResultDigitalization
+from account.models import UserResultDigitalization, IndicatorMainBP, IndicatorManageBP, IndicatorAuxiliaryBP
 from .result import ResultSession
 from indicators.models import Degree
 from .forms import ChooseBusinessProcessForm, InputValueForm
@@ -40,7 +40,6 @@ def get_result_of_value(request):
     if result:
         result_session = ResultSession(request)
         result_session.save_to_result_session(result)
-        print(result)
         return render(request, 'result1.html', {'values': result})
     else:
         return render(request, 'set_detail.html', {'interim_set': interim_set, 'error_message': "Заполните опросные листы!"})
@@ -51,33 +50,77 @@ from django.core.mail import EmailMessage
 def save_result(request):
     result_session = request.session.get(settings.RESULT_SESSION_ID)
     if request.method == 'POST':
-        agreement_to_send = request.POST['send_email']
-        if agreement_to_send == 'agree':
-
-
-            # html_string = render_to_string('pdf.html', {'result_session': result_session}) #first
-            # response = HttpResponse(content_type='application/pdf')
-            # response['Content-Disposition'] = 'filename="order.pdf"'
-            # weasyprint.HTML(string=html_string).write_pdf(response)
-            # return response
-
-            html_string = render_to_string('pdf.html', {'result_session': result_session})  # second
-            html = weasyprint.HTML(string=html_string)
-            result_pdf = html.write_pdf('test.pdf')
-            recipients = ['WASILIY10K@yandex.ru']
-            subject = 'Портал цифровизации'
-            msg = EmailMessage(subject, subject, settings.EMAIL_HOST_USER, recipients)
-            msg.attach_file('test.pdf')
-            msg.send()
-            return redirect('calculating:show_history_of_evaluations')
-
-
-        else:
+        try:
+            agreement_to_send = request.POST['send_email']
+        except Exception as e:
+            print(e)
             result_session = request.session.get(settings.RESULT_SESSION_ID)
-            data = UserResultDigitalization(user=request.user, digitalization=result_session['digitalization'])
-            data.save()
+            print(result_session)
+            try:
+                digitalization_of_main_bp = result_session['digitalization_of_main_bp']
+            except KeyError:
+                digitalization_of_main_bp = None
+            try:
+                digitalization_of_manage_bp = result_session['digitalization_of_manage_bp']
+            except KeyError:
+                digitalization_of_manage_bp = None
+            try:
+                digitalization_of_auxiliary_bp = result_session['digitalization_of_auxiliary_bp']
+            except KeyError:
+                digitalization_of_auxiliary_bp = None
+
+            total_data_digitalization = UserResultDigitalization.objects.create(user=request.user,
+                                                                                digitalization=result_session['digitalization'],
+                                                                                digit_value_main_bp=digitalization_of_main_bp,
+                                                                                digit_value_manage_bp=digitalization_of_manage_bp,
+                                                                                digit_value_auxiliary_bp=digitalization_of_auxiliary_bp)
+
+
+            interim_set = request.session.get(settings.SET_SESSION_ID)
+            print(interim_set)
+            for indicator in interim_set.values():
+                if indicator['business_process'] == 'Основные':
+                    total_data_digitalization.indicatormainbp_set.create(name=indicator['name'],
+                                                                              value_of_indicator=indicator['value'])
+                elif indicator['business_process'] == 'Вспомогательные':
+                    total_data_digitalization.indicatorauxiliarybp_set.create(name=indicator['name'],
+                                                                              value_of_indicator=indicator['value'])
+                elif indicator['business_process'] == 'Управления':
+                    total_data_digitalization.indicatormanagebp_set.create(name=indicator['name'],
+                                                                              value_of_indicator=indicator['value'])
+
+
             messages.success(request, 'Результат успешно сохранен!')
             return redirect('calculating:show_history_of_evaluations')
+        else:
+            if agreement_to_send == 'agree':
+
+
+                # html_string = render_to_string('pdf.html', {'result_session': result_session}) #first
+                # response = HttpResponse(content_type='application/pdf')
+                # response['Content-Disposition'] = 'filename="order.pdf"'
+                # weasyprint.HTML(string=html_string).write_pdf(response)
+                # return response
+
+                html_string = render_to_string('pdf.html', {'result_session': result_session})  # second
+                html = weasyprint.HTML(string=html_string)
+                result_pdf = html.write_pdf('test.pdf')
+                recipients = ['WASILIY10K@yandex.ru']
+                subject = 'Портал цифровизации'
+                msg = EmailMessage(subject, subject, settings.EMAIL_HOST_USER, recipients)
+                msg.attach_file('test.pdf')
+                msg.send()
+                return redirect('calculating:show_history_of_evaluations')
+
+
+    else:
+        result_session = request.session.get(settings.RESULT_SESSION_ID)
+        print(result_session)
+        data = UserResultDigitalization(user=request.user,
+                                        digitalization=result_session['digitalization'])
+        data.save()
+        messages.success(request, 'Результат успешно сохранен!')
+        return redirect('calculating:show_history_of_evaluations')
 
 
 
@@ -108,6 +151,19 @@ def calculate_value_of_indicator_share(request, indicator_id):
 
 
 
-
+def generate_pdf(request, total_values_id):
+    total_values_digitalization = get_object_or_404(UserResultDigitalization, id=total_values_id)
+    organisation = request.user.organisation
+    full_name = request.user.first_name + " " + request.user.last_name
+    email = request.user.email
+    html_string = render_to_string('pdf.html', {'total_values_digitalization': total_values_digitalization,
+                                                'organisation': organisation,
+                                                'full_name': full_name,
+                                                'email': email})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="Digitalization.pdf"'
+    weasyprint.HTML(string=html_string).write_pdf(response, stylesheets=[weasyprint.CSS(
+                                                                        settings.STATIC_DIR + '/css/pdf.css')])
+    return response
 
 
