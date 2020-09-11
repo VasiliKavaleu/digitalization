@@ -29,9 +29,9 @@
                                                     <div class="col-md-2 col-sm-6">
 
                                                             {% if indicator.id in list_id_in_set %}
-                                                                <a href="{% url 'set:remove_from_set' indicator.id %}" class="btn chs-del">Удалить</a>
+                                                                <a id="{{ indicator.id }}" data-action="del" href="{% url 'set:remove_from_set' indicator.id %}" class="btn chs-del">Удалить</a>
                                                             {% else %}
-                                                                <a href="{% url 'set:add_indicator' indicator.id %}" class="btn chs-del">Выбрать</a>
+                                                                <a id="{{ indicator.id }}" data-action="add" href="{% url 'set:add_indicator' indicator.id %}" class="btn chs-del addit-cls">Выбрать</a>
                                                             {% endif %}
 
                                                     </div>
@@ -65,16 +65,49 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="calltoaction-wrapper">
-                            <a href="{% url 'set:set_detail' %}" class="btn btn-orange">Перейти к списку выбранных показателей</a>
+                            <a href="{% url 'set:set_detail' %}" class="go-choosen-list">
+                                  <span></span>
+                                  <span></span>
+                                  <span></span>
+                                  <span></span>
+                                Перейти к списку выбранных показателей</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-	    <script type="text/javascript">
+
+{% endblock %}
 
 
-
-        </script>
-
+{% block script %}
+    <script>
+        $(document).ready(function(){
+            $('.chs-del').click(function(e){
+                var id = $(this).attr('id');
+                e.preventDefault();
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url 'set:change_indicator_state' %}',
+                    data: { 'indicator_id': id },
+                    success: function(response) {
+                        if ( response["change_state"]) {
+                            var previous_action = $('#' + id).data('action');
+                            console.log(previous_action);
+                            $('#' + id).data('action', previous_action == 'add' ? 'del' : 'add');
+                            $('#' + id).text(previous_action == 'add' ? 'Удалить' : 'Выбрать');
+                            if ($('#' + id).hasClass('addit-cls')) {
+                                $('#' + id).removeClass('addit-cls');
+                            }else {
+                                $('#' + id).addClass('addit-cls');
+                            }
+                        }
+                    error: var er = function (response) {
+                        console.log(response);
+                    };
+                }
+            });
+        });
+})
+    </script>
 {% endblock %}

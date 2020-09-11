@@ -23,6 +23,7 @@
 		<link rel="stylesheet" href="{% static 'css/main.css' %}">
 		<link rel="stylesheet" href="{% static 'css/additional-style.css' %}">
         <script src="{% static 'js/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>
+		<script>window.jQuery || document.write('<script src={% static "js/jquery-1.9.1.min.js" %}><\/script>')</script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -63,14 +64,12 @@
 								<li class="has-submenu">
 									<a href="#">Личный кабинет</a>
 									<div class="mainmenu-submenu">
-<!--										<div class="mainmenu-submenu-inner">-->
 											<div>
 												<ul>
 													<li><a  href="{% url 'account:update_user' %}"><h4 class="sb-menu-title">Управление аккаунтом</h4></a></li>
 													<li><a  href="{% url 'calculating:show_history_of_evaluations' %}"><h4 class="sb-menu-title">История измерений</h4></a></li>
 												</ul>
 											</div>
-<!--										</div>&lt;!&ndash; /mainmenu-submenu-inner &ndash;&gt;-->
 									</div><!-- /mainmenu-submenu -->
 								</li>
 							</ul>
@@ -86,14 +85,6 @@
 			<div class="footer">
 				<div class="container">
 					<div class="row">
-	<!--		    		<div class="col-footer col-md-3 col-xs-6">-->
-	<!--		    			<h3>Our Latest Work</h3>-->
-	<!--		    			<div class="portfolio-item">-->
-	<!--							<div class="portfolio-image">-->
-	<!--								<a href="page-portfolio-item.html"><img src="img/portfolio6.jpg" alt="Project Name"></a>-->
-	<!--							</div>-->
-	<!--						</div>-->
-	<!--		    		</div>-->
 						<div class="col-footer col-md-3 col-xs-6">
 							<h3>Навигация</h3>
 							<ul class="no-list-style footer-navigate-section">
@@ -130,16 +121,19 @@
 			</div>
 
 		</div>
+
+				{% block script %}
+				{% endblock %}
+
         <!-- Javascripts -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
         <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+        <script src="{% static 'js/main-menu.js' %}"></script>
+        <script src="{% static 'js/template.js' %}"></script>
         <script src="{% static 'js/jquery.fitvids.js' %}"></script>
         <script src="{% static 'js/jquery.sequence-min.js' %}"></script>
         <script src="{% static 'js/jquery.bxslider.js' %}"></script>
-        <script src="{% static 'js/main-menu.js' %}"></script>
-        <script src="{% static 'js/template.js' %}"></script>
 
     </body>
 </html>

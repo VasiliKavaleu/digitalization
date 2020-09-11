@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.http import JsonResponse
 
 from indicators.models import Degree
 from .set import Set
@@ -29,3 +30,22 @@ def remove_indicator(request, indicator_id):
     indicator = get_object_or_404(Degree, id=indicator_id)
     set.remove_from_set(indicator=indicator)
     return redirect('choose_indicator')
+
+def change_indicator_state(request):
+    if request.is_ajax and request.method == "GET":
+        indicator_id =request.GET.get("indicator_id", None)
+        interim_set = request.session.get(settings.SET_SESSION_ID)
+        if indicator_id in interim_set:
+            # remove_indicator(request, indicator_id)
+            set = Set(request)
+            indicator = get_object_or_404(Degree, id=indicator_id)
+            set.remove_from_set(indicator=indicator)
+        else:
+            #
+            set = Set(request)
+            indicator = get_object_or_404(Degree, id=indicator_id)
+
+            set.add_to_set(indicator=indicator)
+        print(interim_set)
+        return JsonResponse({"change_state":True}, status = 200)
+    return JsonResponse({}, status=400)

@@ -50,7 +50,7 @@
                                                 {% endif %}
                                             </td>
                                             <td class="event-price hidden-xs">{{ indicator.value }}</td>
-                                            <td><a href="{% url 'calculating:questionnaire' indicator.id %}" class="btn btn-grey btn-sm event-more">Опросный лист</a></td>
+                                            <td><a href="{% url 'calculating:questionnaire' indicator.id %}" class="btn waves-effect waves-light hor-grd btn-grd-inverse">Опросный лист</a></td>
 
                                         </tr>
                                     {% endfor %}
@@ -67,11 +67,26 @@
                                 {{ error_message }}
                             </div>
                         {% endif %}
-                        <div class="calltoaction-wrapper">
-                            <a href="{% url 'calculating:get_result_of_value' %}" class="btn btn-orange">Рассчитать значение цифровизации</a>
-                        </div>
+
 	    			</div>
 	    		</div>
 			</div>
 		</div>
+
+        <div class="section section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="calltoaction-wrapper">
+                            <a href="{% url 'calculating:get_result_of_value' %}" class="go-choosen-list">
+                                  <span></span>
+                                  <span></span>
+                                  <span></span>
+                                  <span></span>
+                                Рассчитать показатель цифровизации</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}
