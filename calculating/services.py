@@ -2,6 +2,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 
 from indicators.models import Degree
+from account.models import UserResultDigitalization
 
 
 def calculate_value_of_indicator(request, indicator_id):
@@ -17,16 +18,16 @@ def calculate_value_of_indicator(request, indicator_id):
             raise KeyError
         sum_of_values_of_selected_choices = sum(list((map(int, multiple_values_of_selected_choices))))
         sum_of_the_values_of_all_possible_options = sum([option.value for option in answer_options])
-        value_of_indicator = sum_of_values_of_selected_choices / sum_of_the_values_of_all_possible_options
+        value_of_indicator = round((sum_of_values_of_selected_choices / sum_of_the_values_of_all_possible_options), 2)
     else:
         value_of_selected_choice = int(request.POST['choice'])
         max_value_of_answer_options = max([option.value for option in answer_options])
-        value_of_indicator = value_of_selected_choice / max_value_of_answer_options
+        value_of_indicator = round((value_of_selected_choice / max_value_of_answer_options), 2)
     save_value_of_indicator_to_set(request, interim_set, indicator_id, value_of_indicator, business_process)
 
 
 def save_value_of_indicator_to_set(request, interim_set, indicator_id, value_of_indicator, business_process):
-    """Save calculated date to current sessions."""
+    """Save calculated data to current sessions."""
     interim_set[str(indicator_id)]['value'] = str(value_of_indicator)
     interim_set[str(indicator_id)]['business_process'] = business_process
     request.session.save()
@@ -66,7 +67,6 @@ def calculate_values_of_digitalization(request):
             }
 
 
-
 def calculate_rms_value(arr):
     a = sum(list(map(lambda x: float(x) ** 2, arr)))
     b = len(arr)
@@ -77,8 +77,43 @@ def calculate_rms_value(arr):
     else:
         return result
 
+
 def transf_to_int_percent(value):
     """Transformation to percent format."""
     if value or value == 0:
         return int(round(value, 2)*100)
     return value
+
+
+def save_to_db(request):
+    """Saving calculating values of digitalization of all business processes,total value and values of indicators."""
+    result_session = request.session.get(settings.RESULT_SESSION_ID)
+    try:
+        digitalization_of_main_bp = result_session['digitalization_of_main_bp']
+    except KeyError:
+        digitalization_of_main_bp = None
+    try:
+        digitalization_of_manage_bp = result_session['digitalization_of_manage_bp']
+    except KeyError:
+        digitalization_of_manage_bp = None
+    try:
+        digitalization_of_auxiliary_bp = result_session['digitalization_of_auxiliary_bp']
+    except KeyError:
+        digitalization_of_auxiliary_bp = None
+
+    total_data_digitalization = UserResultDigitalization.objects.create(user=request.user,
+                                                                        digitalization=result_session['digitalization'],
+                                                                        digit_value_main_bp=digitalization_of_main_bp,
+                                                                        digit_value_manage_bp=digitalization_of_manage_bp,
+                                                                        digit_value_auxiliary_bp=digitalization_of_auxiliary_bp)
+    interim_set = request.session.get(settings.SET_SESSION_ID)
+    for indicator in interim_set.values():
+        if indicator['business_process'] == 'Основные':
+            total_data_digitalization.indicatormainbp_set.create(name=indicator['name'],
+                                                                      value_of_indicator=indicator['value'])
+        elif indicator['business_process'] == 'Вспомогательные':
+            total_data_digitalization.indicatorauxiliarybp_set.create(name=indicator['name'],
+                                                                      value_of_indicator=indicator['value'])
+        elif indicator['business_process'] == 'Управления':
+            total_data_digitalization.indicatormanagebp_set.create(name=indicator['name'],
+                                                                      value_of_indicator=indicator['value'])

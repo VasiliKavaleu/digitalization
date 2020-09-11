@@ -110,7 +110,7 @@ h4.sb-menu-title {
 }
 */
 
-.container-fluid:hover {
+.container-fluid.saved-result:hover {
     background-color: rgba(0, 0, 0, 0.05);
     box-shadow: 0px 0px 3px 0px black;
     border-radius: 10px;

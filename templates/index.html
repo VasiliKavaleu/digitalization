@@ -52,16 +52,20 @@
 						<nav id="mainmenu" class="mainmenu">
 							<ul>
 								<li class="logo-wrapper"><a href="#"><img class="logo" src="{% static 'img/mPurpose-logo.png' %}" alt="Logo"></a></li>
-								<li class="active">
-									<a href="{% url 'main' %}">Главная</a>
+								{% url 'main' as main %}
+								<li class="{% if request.path == main %}active{% endif %}">
+									<a href="{% url 'main' %}" >Главная</a>
 								</li>
 								<li>
 									<a href="#">Описание методики</a>
 								</li>
-								<li>
-									<a href="{% url 'contact_us' %}">Контакты</a>
+								{% url 'contact_us' as contact_us %}
+								<li class="{% if request.path == contact_us %}active{% endif %}">
+									<a href="{% url 'contact_us' %}" >Контакты</a>
 								</li>
-								<li class="has-submenu">
+								{% url 'account:update_user' as update_user %}
+								{% url 'calculating:show_history_of_evaluations' as show_history_of_evaluations %}
+								<li class="has-submenu {% if request.path == update_user or request.path == show_history_of_evaluations %}active{% endif %}">
 									<a href="#">Личный кабинет</a>
 									<div class="mainmenu-submenu">
 											<div>
@@ -79,6 +83,7 @@
 
 				{% block 'content' %}
 				{% endblock %}
+
 			</div>
 
 			<!-- Footer -->
@@ -121,10 +126,12 @@
 			</div>
 
 		</div>
-
-				{% block script %}
-				{% endblock %}
-
+		<script>
+				$(document).ready(function(){
+					{% block script %}
+					{% endblock %}
+				})
+	   	</script>
         <!-- Javascripts -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>

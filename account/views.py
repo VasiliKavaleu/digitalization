@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from . forms import SignUpForm, LoginForm, UpdateUserData, ChooseDepatmentForm
 from .models import CustomUser, Depatment
+
 
 def login_user(request):
     form = LoginForm()
@@ -20,9 +22,11 @@ def login_user(request):
     else:
         return render(request, 'login.html', {'form': form})
 
+
 def logout_user(request):
     logout(request)
     return redirect('main')
+
 
 def register(request):
     form = SignUpForm()
@@ -30,15 +34,22 @@ def register(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
-            created_user = CustomUser.objects.get(email=request.POST['email'])
-            depatment = Depatment.objects.create(name=request.POST['name'], user=created_user)
+            new_user = form.save()
+            depatment = Depatment.objects.create(name=request.POST['name'], user=new_user)
+            login_user = authenticate(request,
+                                      email=request.POST['email'],
+                                      password=request.POST['password1']
+                                      )
+            if login_user is not None:
+                login(request, login_user)
             messages.success(request, 'Вы успешно зарегистрированы!')
-            return render(request, 'register.html', {'form': form})
+            return redirect('account:register')
         else:
-            return render(request, 'register.html', {'form': form})
+            return redirect('account:register')
     return render(request, 'register.html', {'form': form, 'depatment_form':depatment_form})
 
+
+@login_required
 def update_user(request):
     try:
         user = CustomUser.objects.get(id=request.user.id)
@@ -62,6 +73,8 @@ def update_user(request):
             return redirect('account:update_user')
     return render(request, 'update.html', {'form': form})
 
+
+@login_required
 def del_user(request):
     try:
         user = CustomUser.objects.get(id=request.user.id)

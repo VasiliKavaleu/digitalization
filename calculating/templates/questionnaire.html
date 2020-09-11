@@ -9,9 +9,6 @@
 {% endblock %}
 {% block 'content' %}
 
-
-
-
 <div class="section section-breadcrumbs">
  <div class="container">
   <div class="row">
@@ -52,9 +49,16 @@
                         </div>
                     {% endif %}
                     <div class="row">
-                        <div class="col-md-offset-10 col-sm-4"><input class="btn subm-question" type="submit" value="Принять"></div>
+                        <div class="col-md-offset-5 col-sm-4"><input class="btn chs-del addit-cls" type="submit" value="Принять"></div>
                     </div>
                 </form>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
             {% else %}
                 {% if indicator.answerchoice_set.all %}
                     {% if indicator.multiple_answer %}
@@ -89,7 +93,7 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="row">
                                             <div class="col-md-6 col-sm-6"></div>
-                                            <div class="col-md-6 col-sm-6"><input class="btn subm-question" type="submit" value="Принять"></div>
+                                            <div class="col-md-6 col-sm-6"><input class="btn chs-del addit-cls" type="submit" value="Принять"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -108,11 +112,7 @@
                                         {{ possible_answer }}</label><br>
                                     </div>
                                 {% endfor %}
-                                {% if error_message %}
-                                        <div class="alert alert-warning" role="alert">
-                                            {{ error_message }}
-                                        </div>
-                                {% endif %}
+
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6">
                                         <div class="row">
@@ -125,7 +125,7 @@
                                     <div class="col-md-6 col-sm-6">
                                         <div class="row">
                                             <div class="col-md-6 col-sm-6"></div>
-                                            <div class="col-md-6 col-sm-6"><input class="btn subm-question" type="submit" value="Принять"></div>
+                                            <div class="col-md-6 col-sm-6"><input class="btn chs-del addit-cls" type="submit" value="Принять"></div>
                                         </div>
                                     </div>
                                 </div>

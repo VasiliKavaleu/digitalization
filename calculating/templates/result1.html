@@ -20,8 +20,8 @@
     <div class="section section-breadcrumbs">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <h1>Результат оценки цифровизации {{ request.user.organisation }}</h1>
+                <div class="col-md-9">
+                    <h1 class="header-text">Результат оценки цифровизации {{ request.user.organisation }}</h1>
                 </div>
             </div>
         </div>
@@ -85,40 +85,23 @@
                                 {% endif %}
                             {% endfor %}
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </div>
-            <div class="section section-white">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="calltoaction-wrapper">
-                            <form class="form-horizontal" role="form" method="POST" action="{% url 'calculating:save_result' %}" >
-								{% csrf_token %}
-                                <div class="row">
-                                            <div class="checkbox choice row">
-                                                <label for="send-flag">
-                                                <input type="checkbox" name="send_email" id="send-flag" value="agree">
-                                                <i class="fa fa-2x icon-checkbox"></i>
-                                                 <h4>Отправить результат на почту.</h4></label>
-                                            </div>
-                                        <div class="col-md-6 wrapper-result-btn">
-                                            <button  class="btn-main btn-secondary" type = "submit">Сохранить результат</button>
-                                        </div>
-                                </div>
-		        			</form>
 
-                            </div>
-                        </div>
+    <div class="section section-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="calltoaction-wrapper">
+                        <a href="{% url 'calculating:save_result' %}" class="btn-main btn-secondary">Сохранить результат</a>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 		<!-- Javascript files -->
 		<!-- jQuery -->
 		<script src="{% static 'css/grafik/jquery.js' %}"></script>
