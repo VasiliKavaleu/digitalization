@@ -21,12 +21,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-                    <h1 class="header-text">Результат оценки цифровизации {{ request.user.organisation }}</h1>
+                    <h1 class="header-text">Оценка цифровизации {{ request.user.organisation }}</h1>
                 </div>
             </div>
         </div>
     </div>
-    <div class="section">
+    <div class="section main">
         <div class="container">
             <div class="row">
                 <!-- UI # -->
@@ -96,12 +96,14 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="calltoaction-wrapper">
-                        <a href="{% url 'calculating:save_result' %}" class="btn-main btn-secondary">Сохранить результат</a>
+                        <a href="{% url 'calculating:save_result' %}" class="btn-main btn-secondary save-result-btn">Сохранить результат</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 		<!-- Javascript files -->
 		<!-- jQuery -->
 		<script src="{% static 'css/grafik/jquery.js' %}"></script>
@@ -147,5 +149,26 @@
 
 			});
 		</script>
+
+{% endblock %}
+
+{% block script %}
+
+            $('.save-result-btn').click(function(e){
+                console.log("Yes")
+                e.preventDefault();
+                $.ajax({
+                    type: 'GET',
+                    url: '{% url 'calculating:save_result' %}',
+                    success: function(response) {
+                        if ( response["saved"]) {
+                                $('.save-result-btn').replaceWith('<a href="{% url 'calculating:show_history_of_evaluations' %}" class="btn-main btn-secondary save-result-btn">Результат сохранен! История измерений - в личном кабинете!</a>')
+                        };
+                    error: var er = function (response) {
+                        console.log(response);
+                    };
+                }
+                });
+            });
 
 {% endblock %}

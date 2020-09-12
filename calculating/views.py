@@ -5,6 +5,7 @@ from django.contrib import messages
 import weasyprint
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 from account.models import UserResultDigitalization
 from .result import ResultSession
@@ -51,6 +52,7 @@ def get_result_of_value(request):
     if result:
         result_session = ResultSession(request)
         result_session.save_to_result_session(result)
+        print(f'Результат вычислений цифровизации {result}')
         return render(request, 'result1.html', {'values': result})
     else:
         return render(request, 'set_detail.html', {'interim_set': interim_set, 'error_message': "Заполните опросные листы!"})
@@ -59,9 +61,10 @@ def get_result_of_value(request):
 @login_required
 def save_result(request):
     """Saving values of digitalization into DB."""
-    save_to_db(request)
-    messages.success(request, 'Результат успешно сохранен!')
-    return redirect('calculating:show_history_of_evaluations')
+    if request.is_ajax and request.method == "GET":
+        save_to_db(request)
+        return JsonResponse({"saved": True}, status=200)
+    return JsonResponse({"saved": False}, status=400)
 
 
 @login_required
@@ -82,6 +85,7 @@ def calculate_value_of_indicator_share(request, indicator_id):
             if quantity <= total_quantity:
                 value_of_indicator = str(round(quantity/total_quantity, 2))
                 save_value_of_indicator_to_set(request, interim_set, indicator_id, value_of_indicator, business_process)
+                print(f'Заполненный опросный лист {interim_set}')
                 return render(request, 'set_detail.html', {'interim_set': interim_set})
             else:
                 messages.info(request, "Проверьте введенные значения!")

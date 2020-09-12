@@ -88,6 +88,7 @@ def transf_to_int_percent(value):
 def save_to_db(request):
     """Saving calculating values of digitalization of all business processes,total value and values of indicators."""
     result_session = request.session.get(settings.RESULT_SESSION_ID)
+    print(f'result_session до сохранения в бд: {result_session}')
     try:
         digitalization_of_main_bp = result_session['digitalization_of_main_bp']
     except KeyError:
@@ -117,3 +118,10 @@ def save_to_db(request):
         elif indicator['business_process'] == 'Управления':
             total_data_digitalization.indicatormanagebp_set.create(name=indicator['name'],
                                                                       value_of_indicator=indicator['value'])
+
+    print(f'interim_set before: {interim_set}')
+    print(f'result_session before: {result_session}')
+    result_session.clear()
+    interim_set.clear()
+    print(f'result_session after: {result_session}')
+    print(f'interim_set after: {interim_set}')

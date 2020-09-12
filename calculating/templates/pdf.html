@@ -21,7 +21,7 @@
     {% if total_values_digitalization.digit_value_manage_bp %}
             <tr>
                 <td><b>Цифровизация БП управления</b></td>
-                <td><b>{{ total_values_digitalization.digit_value_manage_bp }}</b></td>
+                <td><b>{{ total_values_digitalization.digit_value_manage_bp|div:100 }}</b></td>
             </tr>
     {% endif %}
 

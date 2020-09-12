@@ -12,17 +12,30 @@ class ResultSession(object):
 
     def save_to_result_session(self, calculated_result):
         """Adding values into result session."""
+
         self.result['digitalization'] = calculated_result['total_digitalization'][1]
-        if calculated_result['digitalization_of_manage_bp'][1]  or calculated_result['digitalization_of_manage_bp'][1] == 0:
+
+        if calculated_result['digitalization_of_manage_bp'][1] or calculated_result['digitalization_of_manage_bp'][1] == 0:
             self.result['digitalization_of_manage_bp'] = calculated_result['digitalization_of_manage_bp'][1]
-        if calculated_result['digitalization_of_main_bp'][1]  or calculated_result['digitalization_of_main_bp'][1] == 0:
+        else:
+            self.result['digitalization_of_manage_bp'] = None
+
+        if calculated_result['digitalization_of_main_bp'][1] or calculated_result['digitalization_of_main_bp'][1] == 0:
             self.result['digitalization_of_main_bp'] = calculated_result['digitalization_of_main_bp'][1]
+        else:
+            self.result['digitalization_of_main_bp'] = None
+
         if calculated_result['digitalization_of_auxiliary_bp'][1] or calculated_result['digitalization_of_auxiliary_bp'][1] == 0:
             self.result['digitalization_of_auxiliary_bp'] = calculated_result['digitalization_of_auxiliary_bp'][1]
-
-
+        else:
+            self.result['digitalization_of_auxiliary_bp'] = None
 
         self.save()
 
     def save(self):
         self.session.modified = True
+
+    def clear(self):
+        """Cleaning result."""
+        del self.session[settings.RESULT_SESSION_ID]
+        self.save()

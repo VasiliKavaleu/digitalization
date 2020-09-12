@@ -38,7 +38,7 @@ class Set(object):
         for degree in degrees:
             yield degree
 
-    def clear(self): # not used
+    def clear(self):
         """Cleaning set."""
         del self.session[settings.SET_SESSION_ID]
         self.save()
