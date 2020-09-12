@@ -29,15 +29,6 @@ class Set(object):
     def save(self):
         self.session.modified = True
 
-
-
-    def __iter__(self): # not used
-        """Iteration through degrees in the Set."""
-        degree_ids = self.set.keys()
-        degrees = Degree.objects.filter(id__in=degree_ids)
-        for degree in degrees:
-            yield degree
-
     def clear(self):
         """Cleaning set."""
         del self.session[settings.SET_SESSION_ID]

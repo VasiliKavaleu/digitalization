@@ -52,7 +52,6 @@ def get_result_of_value(request):
     if result:
         result_session = ResultSession(request)
         result_session.save_to_result_session(result)
-        print(f'Результат вычислений цифровизации {result}')
         return render(request, 'result1.html', {'values': result})
     else:
         return render(request, 'set_detail.html', {'interim_set': interim_set, 'error_message': "Заполните опросные листы!"})
@@ -85,7 +84,6 @@ def calculate_value_of_indicator_share(request, indicator_id):
             if quantity <= total_quantity:
                 value_of_indicator = str(round(quantity/total_quantity, 2))
                 save_value_of_indicator_to_set(request, interim_set, indicator_id, value_of_indicator, business_process)
-                print(f'Заполненный опросный лист {interim_set}')
                 return render(request, 'set_detail.html', {'interim_set': interim_set})
             else:
                 messages.info(request, "Проверьте введенные значения!")

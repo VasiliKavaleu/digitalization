@@ -12,7 +12,6 @@ from django.conf import settings
 def set_detail(request):
     """Reflecting content of set."""
     interim_set = request.session.get(settings.SET_SESSION_ID)
-    print(f'Выбранные показатели {interim_set}')
     if not interim_set:
         messages.error(request, 'Выберите показатель!')
         return redirect('choose_indicator')
