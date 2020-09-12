@@ -10,7 +10,7 @@ TYPE_OF_BUSINESS_PROCESS = [
 
 class ChooseBusinessProcessForm(forms.Form):
     business_process = forms.ChoiceField(
-                                        label="Укажите соответствующий бизнес-процесс:",
+                                        label="Бизнес-процесс:",
                                          widget=forms.Select(attrs={"class": "form-control"}),
                                          choices=TYPE_OF_BUSINESS_PROCESS
                                          )

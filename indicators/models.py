@@ -34,7 +34,7 @@ class AnswerChoice(models.Model):
 class AnswerInput(models.Model):
     """Answer input type for indicator share."""
     question = models.ForeignKey(Degree, verbose_name='Вопрос', on_delete=models.SET_NULL, null=True)
-    quantity = models.TextField('Вопрос для для определения доли')
+    quantity = models.TextField('Вопрос для определения доли')
     total_quantity = models.TextField('Вопрос для определения общего количества')
 
 

@@ -16,11 +16,11 @@ def calculate_value_of_indicator(request, indicator_id):
         multiple_values_of_selected_choices = (request.POST.getlist('choice'))
         if not multiple_values_of_selected_choices:
             raise KeyError
-        sum_of_values_of_selected_choices = sum(list((map(int, multiple_values_of_selected_choices))))
+        sum_of_values_of_selected_choices = sum(list((map(lambda str: float(str.replace(',', '.')), multiple_values_of_selected_choices))))
         sum_of_the_values_of_all_possible_options = sum([option.value for option in answer_options])
         value_of_indicator = round((sum_of_values_of_selected_choices / sum_of_the_values_of_all_possible_options), 2)
     else:
-        value_of_selected_choice = int(request.POST['choice'])
+        value_of_selected_choice = float(request.POST['choice'].replace(',', '.'))
         max_value_of_answer_options = max([option.value for option in answer_options])
         value_of_indicator = round((value_of_selected_choice / max_value_of_answer_options), 2)
     save_value_of_indicator_to_set(request, interim_set, indicator_id, value_of_indicator, business_process)

@@ -62,19 +62,20 @@
             {% else %}
                 {% if indicator.answerchoice_set.all %}
                     {% if indicator.multiple_answer %}
-                            <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
+                            <form action="{% url 'calculating:calculate_value_of_indicator_degree' indicator.id %}" method="POST">
                                 {% csrf_token %}
-
                                 {% if indicator.question %}
                                     <p class="name-question">{{ indicator.question }}</p>
                                 {% endif %}
                                 {% for possible_answer in indicator.answerchoice_set.all %}
+                                <div class="row">
                                     <div class="checkbox choice row">
                                         <label for="choice{{ forloop.counter }}">
                                         <input type="checkbox" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
                                         <i class="fa fa-2x icon-checkbox"></i>
                                         {{ possible_answer }}</label><br>
                                     </div>
+                                </div>
                                 {% endfor %}
                                 {% if error_message %}
                                         <div class="alert alert-warning" role="alert">
@@ -99,18 +100,20 @@
                                 </div>
                             </form>
                     {% else %}
-                           <form action="{% url 'calculating:calculate_value_from_answer' indicator.id %}" method="POST">
+                           <form action="{% url 'calculating:calculate_value_of_indicator_degree' indicator.id %}" method="POST">
                                 {% csrf_token %}
                                 {% if indicator.question %}
                                     <p class="name-question">{{ indicator.question }}</p>
                                 {% endif %}
                                 {% for possible_answer in indicator.answerchoice_set.all %}
-                                    <div class="radio choice row">
-                                        <label for="choice{{ forloop.counter }}">
-                                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
-                                        <i class="fa fa-2x icon-radio"></i>
-                                        {{ possible_answer }}</label><br>
-                                    </div>
+                                    <div class="row">
+                                        <div class="radio choice row">
+                                            <label for="choice{{ forloop.counter }}">
+                                            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ possible_answer.value }}">
+                                            <i class="fa fa-2x icon-radio"></i>
+                                            {{ possible_answer }}</label><br>
+                                        </div>
+                                   </div>
                                 {% endfor %}
 
                                 <div class="row">
