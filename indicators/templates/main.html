@@ -96,35 +96,44 @@
 								<div class="row">
 									<div class="col-md-12">
 										<div class="pricing-wrapper">
-											<div class="pricing-plan">
-												<h2 class="pricing-plan-title">Шаг 1</h2>
-												<img class="img-step" src="{% static 'img/service-icon/check.png' %}" alt="Service 2">
-												<ul class="pricing-plan-features">
-													<li><strong>Выбрать показатели характеризующие вид деятельности</strong></li>
-												</ul>
-											</div>
-											<div class="pricing-plan">
-												<h2 class="pricing-plan-title">Шаг 2</h2>
-												<img class="img-step" src="{% static 'img/service-icon/clipboard.png' %}" alt="Service 2">
-												<ul class="pricing-plan-features">
-													<li><strong>Перейти к списку выбранных показателей</strong></li>
-												</ul>
-											</div>
-											<div class="pricing-plan">
-													<h2 class="pricing-plan-title">Шаг 3</h2>
-													<img class="img-step" src="{% static 'img/service-icon/compose.png' %}" alt="Service 2">
+											<div class="row">
+
+												<div class="pricing-plan">
+
+													<h2 class="pricing-plan-title">Шаг 1</h2>
+													<img class="img-step" src="{% static 'img/service-icon/check.png' %}" alt="Service 2">
 													<ul class="pricing-plan-features">
-														<li><strong>Заполнить опросные листы</strong></li>
+														<li><strong>Выбрать показатели </strong></li>
 														<br>
 													</ul>
-											</div>
-											<div class="pricing-plan">
-												<h2 class="pricing-plan-title">Шаг 4</h2>
-													<img class="img-step" src="{% static 'img/service-icon/memorycard.png' %}" alt="Service 2">
-												<ul class="pricing-plan-features">
-													<li><strong> Сохранить результат</strong></li>
-													<br>
-												</ul>
+												</div>
+
+
+												<div class="pricing-plan">
+													<h2 class="pricing-plan-title">Шаг 2</h2>
+													<img class="img-step" src="{% static 'img/service-icon/clipboard.png' %}" alt="Service 2">
+													<ul class="pricing-plan-features">
+														<li><strong>Перейти к выбранным показателей</strong></li>
+														<br>
+													</ul>
+												</div>
+
+												<div class="pricing-plan">
+														<h2 class="pricing-plan-title">Шаг 3</h2>
+														<img class="img-step" src="{% static 'img/service-icon/compose.png' %}" alt="Service 2">
+														<ul class="pricing-plan-features">
+															<li><strong>Заполнить опросные листы</strong></li>
+															<br>
+														</ul>
+												</div>
+												<div class="pricing-plan">
+													<h2 class="pricing-plan-title">Шаг 4</h2>
+														<img class="img-step" src="{% static 'img/service-icon/memorycard.png' %}" alt="Service 2">
+													<ul class="pricing-plan-features">
+														<li><strong> Сохранить результат</strong></li>
+														<br>
+													</ul>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -138,7 +147,7 @@
 	    <div class="section section-white">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12 col-sm-12">
 						<div class="calltoaction-wrapper">
 							<a href="{% url 'choose_indicator' %}" class="btn-main btn-secondary">Рассчитать показатель цифровизации</a>
 						</div>
@@ -171,4 +180,26 @@
 	    </div>
 	    <!-- End Our Clients -->
 
+{% endblock %}
+
+{% block script %}
+	<script>
+		$(document).ready(function() {
+		  function checkWidth() {
+			var windowWidth = $('body').innerWidth(),
+				elem = $(".btn-main");
+
+			if(windowWidth < 480){
+			  elem.addClass('col-xs-12');
+			}
+			else{
+			  elem.removeClass('col-xs-12');
+			}
+		  }
+		  checkWidth(); // проверит при загрузке страницы
+		  $(window).resize(function(){
+			checkWidth(); // проверит при изменении размера окна клиента
+		  });
+		});
+    </script>
 {% endblock %}

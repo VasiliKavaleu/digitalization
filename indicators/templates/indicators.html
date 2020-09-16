@@ -60,6 +60,39 @@
 				</div>
             </div>
 	    </div>
+
+        {% if is_qs_paginated %}
+            <div class="col text-center">
+            <nav aria-label="Page navigation example">
+                <div class="justify-content-center">
+                  <ul class="pagination justify-content-center pagination-lg" id="pagination">
+
+                        <li class="page-item {% if not prev_page %} disabled {% endif %} ">
+                          <a class="page-link" href="{{ prev_page }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                          </a>
+                        </li>
+                    {% for n in indicators.paginator.page_range %}
+                        {% if indicators.number == n %}
+                            <li class="page-item active"><a class="page-link active" href="?page={{ n }}">{{ n }}</a></li>
+                        {% elif n > indicators.number|add:-3 and n < indicators.number|add:3 %}
+                            <li class="page-item"><a class="page-link active" href="?page={{ n }}">{{ n }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                        <li class="page-item {% if not next_page %} disabled {% endif %}">
+                          <a class="page-link" href="{{ next_page }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                          </a>
+                        </li>
+
+                  </ul>
+                </div>
+            </nav>
+            </div>
+        {% endif %}
+
         <div class="section section">
             <div class="container">
                 <div class="row">
@@ -81,30 +114,61 @@
 
 
 {% block script %}
+    <script>
+                function ajaxPaginator() {
+                        $(document).on("click", 'a.page-link', function(e) {
+                            e.preventDefault()
+                            let page_url = $(this).attr('href')
+                            $.ajax({
+                                url: page_url,
+                                type: 'GET',
+                                dataType: 'html',
+                                success: (data) => {
+                                     var data = $.parseHTML(data);
+                                    $('#accordion2').empty()
+                                    $('#accordion2').append( $(data).find('#accordion2') )
 
-            $('.chs-del').click(function(e){
-                var id = $(this).attr('id');
-                e.preventDefault();
-                $.ajax({
-                    type: 'GET',
-                    url: '{% url 'set:change_indicator_state' %}',
-                    data: { 'indicator_id': id },
-                    success: function(response) {
-                        if ( response["change_state"]) {
-                            var previous_action = $('#' + id).data('action');
-                            $('#' + id).data('action', previous_action == 'add' ? 'del' : 'add');
-                            $('#' + id).text(previous_action == 'add' ? 'Удалить' : 'Выбрать');
-                            if ($('#' + id).hasClass('addit-cls')) {
-                                $('#' + id).removeClass('addit-cls');
-                            }else {
-                                $('#' + id).addClass('addit-cls');
-                            }
-                        }
-                    error: var er = function (response) {
-                        console.log(response);
-                    };
+                                    $('.pagination').empty()
+                                    $('.pagination').append( $(data).find('.pagination') )
+                                }
+                            })
+                        })
                 }
-            });
-        });
 
+
+
+        $(document).ready(function(){
+
+                ajaxPaginator()
+
+                $(document).on("click", '.chs-del', function(e) {
+                    var id = $(this).attr('id');
+                    e.preventDefault();
+                    $.ajax({
+                        type: 'GET',
+                        url: '{% url 'set:change_indicator_state' %}',
+                        data: { 'indicator_id': id },
+                        success: function(response) {
+                            if ( response["change_state"]) {
+                                var previous_action = $('#' + id).data('action');
+                                $('#' + id).data('action', previous_action == 'add' ? 'del' : 'add');
+                                $('#' + id).text(previous_action == 'add' ? 'Удалить' : 'Выбрать');
+                                if ($('#' + id).hasClass('addit-cls')) {
+                                    $('#' + id).removeClass('addit-cls');
+                                }else {
+                                    $('#' + id).addClass('addit-cls');
+                                }
+                            }
+                        error: var er = function (response) {
+                            console.log(response);
+                        };
+                        }
+                    });
+                });
+        })
+        $(document).ajaxStop(function(){
+            ajaxPaginator()
+        })
+
+    </script>
 {% endblock %}

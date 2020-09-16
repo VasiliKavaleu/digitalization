@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib import messages
 
+from .paginator_helper import pg_records
 from set.set import Set
 from .models import Degree
 from .forms import ContactForm
@@ -17,7 +18,9 @@ def choose_indicator(request):
         indicators = Degree.objects.all()
         set = Set(request)
         list_id_in_set = [int(i) for i in request.session.get(settings.SET_SESSION_ID).keys()]
-        return render(request, 'indicators.html', {'indicators': indicators, 'list_id_in_set': list_id_in_set})
+        context = pg_records(request, indicators, 5)
+        context['list_id_in_set'] = list_id_in_set
+        return render(request, 'indicators.html', context)
     return redirect('account:login_user')
 
 def contact_us(request):
