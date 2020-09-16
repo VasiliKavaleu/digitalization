@@ -45,8 +45,8 @@ def register(request):
             messages.success(request, 'Вы успешно зарегистрированы!')
             return redirect('account:register')
         else:
-            return redirect('account:register')
-    return render(request, 'register.html', {'form': form, 'depatment_form':depatment_form})
+            return render(request, 'register.html', {'form': form, 'depatment_form': depatment_form})
+    return render(request, 'register.html', {'form': form, 'depatment_form': depatment_form})
 
 
 @login_required

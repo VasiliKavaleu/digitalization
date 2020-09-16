@@ -52,7 +52,7 @@
 								<div class="row">
 									<div class="col-sm-9" >
 										<div class="form-group">
-											<a href="{% url 'account:del_user' %}"><button type="submit" class="btn register col-md-offset-5">Удалить аккаунт</button></a>
+											<a href="{% url 'account:del_user' %}"><button type="submit" onclick="return Validator()" id="del-account-btn" class="btn register col-md-offset-5">Удалить аккаунт</button></a>
 											<div class="clearfix"></div>
 										</div>
 									</div>
@@ -63,4 +63,17 @@
 				</div>
 			</div>
 		</div>
+{% endblock %}
+
+{% block script %}
+    <script>
+		function Validator(){
+		   if(confirm("Подтвердите удаление аккаунта") ){
+			  document.getElementById('del-account-btn').submit();
+			  return(true);
+		   }else{
+			  return(false);
+		   }
+		}
+    </script>
 {% endblock %}
