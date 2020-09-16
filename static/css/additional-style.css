@@ -481,3 +481,11 @@ a.btn.waves-effect.waves-light.hor-grd.btn-grd-inverse {
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
 	box-shadow: 0 4px 9px 0 rgba(0, 0, 0, 0.2);
 }
+
+/* map */
+iframe#map-contact {
+    box-shadow: 0 0 6px 0px #04344c;
+    border-radius: 6px;
+}
+
+/* end map */
