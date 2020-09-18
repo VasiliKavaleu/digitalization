@@ -47,3 +47,15 @@ def contact_us(request):
     else:
         form = ContactForm()
     return render(request, 'contact.html', {'form': form})
+
+
+def total_info(request):
+    return render(request, 'description/total_info.html')
+
+
+def methods(request):
+    return render(request, 'description/methods.html')
+
+
+def formation_indicators(request):
+    return render(request, 'description/formation_indicators.html')

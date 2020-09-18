@@ -489,3 +489,45 @@ iframe#map-contact {
 }
 
 /* end map */
+
+
+
+/* img */
+img.img-desc {
+    border-radius: 8px;
+    width: 95%;
+}
+
+img.img-desc-schema {
+    border-radius: 10px;
+    margin: 20px;
+}
+
+img.img-desc-schema.question-img {
+    width: 90%;
+}
+
+
+img.formula-img {
+    width: 55%;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+/* end img */
+
+
+div.single-post-content li {
+    color: #828282;
+    font-size: 0.9em;
+    text-align: justify;
+    margin-left: 15px;
+}
+
+div.single-post-content p {
+    text-indent: 20px;
+}
+
+.portfolio-item-description.col-sm-6 {
+    text-align: justify;
+}

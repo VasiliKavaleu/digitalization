@@ -1,0 +1,122 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block 'content' %}
+    <div class="section section-breadcrumbs">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<h1>Описание методики</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+
+     <div class="section">
+	    	<div class="container">
+				<div class="row">
+					<!-- Blog Post -->
+					<div class="col-sm-8">
+						<div class="blog-post blog-single-post">
+							<div class="single-post-title">
+								<h3>Методика оценки цифровизации</h3>
+							</div>
+							<div class="single-post-info">
+
+							</div>
+							<div class="single-post-image">
+								<img src="{% static 'img/description/metodika.jpg' %}" class="img-desc" alt="Post Title">
+							</div>
+							<div class="single-post-content">
+								<p>
+									Для расчета текущего уровня цифровизации предприятий (организаций)
+									отраслей и функциональных сфер экономики, необходимо составить перечень показателей,
+									характеризующих основные виды деятельности предприятий (организаций),
+									относительно трех видов бизнес-процессов (основных, вспомогательных и управленческих).
+								</p>
+
+
+								<p> На основании подмножества частных показателей формируются опросные листы, направленные
+									на снятие частных показателей цифровизации.</p>
+                                <div class="single-post-image">
+								    <img src="{% static 'img/description/bs32.png' %}" class="img-desc-schema question-img" alt="Post Title">
+							    </div>
+								<p>
+									Значение показателя цифровизации предприятия (организации) рассчитывается как среднее
+									квадратичное значений цифровизации видов бизнес-процессов.
+								</p>
+								<div class="single-post-image">
+									<img src="{% static 'img/description/formula.png' %}" class="formula-img" alt="Post Title">
+								</div>
+								<ul>
+									<li>
+										Ц –  показатель цифровизации;;
+									</li>
+
+									<li>
+										Цo –  показатель цифровизации основных бизнес-процессов;
+									</li>
+									<li>
+										Цв –  показатель цифровизации вспомогательных бизнес-процессов;
+									</li>
+									<li>
+										Цу –  показатель цифровизации управленческих бизнес-процессов.
+									</li>
+								</ul>
+
+								<p>
+									В свою очередь, показатель цифровизации основных, вспомогательных
+									и управленческих бизнес-процессов, рассчитываются как среднее квадратичное
+									значений частных показателей автоматизации и информатизации определенных на
+									основании заполненных опросных листов
+								</p>
+                                <div class="single-post-image">
+									<img src="{% static 'img/description/formula1.png' %}" class="formula-img" alt="Post Title">
+								</div>
+                                <div class="single-post-image">
+									<img src="{% static 'img/description/formula2.png' %}" class="formula-img" alt="Post Title">
+								</div>
+                                <div class="single-post-image">
+									<img src="{% static 'img/description/formula3.png' %}" class="formula-img" alt="Post Title">
+								</div>
+								<ul>
+									<li>
+										n – количество частных показателей автоматизации и информатизации,
+										относящихся к определенному виду бизнес-процессов организации;
+									</li>
+
+									<li>
+										k – сумма максимально возможных значений частных показателей,
+										относящихся к определенному виду бизнес-процессов организации.
+									</li>
+								</ul>
+								<p>
+									Уровень цифровизации отрасли/функциональной сферы рассчитывается на
+									основании значений показателей цифровизации предприятий (организаций)
+									входящих в состав отрасли с учетом их весовых коэффициентов
+								</p>
+                                <div class="single-post-image">
+									<img src="{% static 'img/description/formula4.png' %}" class="formula-img" alt="Post Title">
+								</div>
+								<ul>
+									<li>
+										n – количество организаций (предприятий) в отрасли;
+									</li>
+
+									<li>
+										Цi – показатель цифровизации i-й организаций (предприятия);
+									</li>
+									<li>
+										i – вес i-й организаций (предприятия) в отрасли.
+									</li>
+								</ul>
+
+							</div>
+							<!-- Comments -->
+
+						</div>
+					</div>
+					<!-- End Blog Post -->
+				</div>
+			</div>
+	    </div>
+{% endblock %}

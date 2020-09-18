@@ -58,8 +58,9 @@
 								<li class="{% if request.path == main %}active{% endif %}">
 									<a href="{% url 'main' %}" >Главная</a>
 								</li>
-								<li>
-									<a href="#">Описание методики</a>
+								{% url 'total_info' as total_info %}
+								<li class="{% if request.path == total_info %}active{% endif %}">
+									<a href="{% url 'total_info' %}">Описание методики</a>
 								</li>
 								{% url 'contact_us' as contact_us %}
 								<li class="{% if request.path == contact_us %}active{% endif %}">
@@ -95,10 +96,10 @@
 						<div class="col-footer col-md-3 col-xs-6">
 							<h3>Навигация</h3>
 							<ul class="no-list-style footer-navigate-section">
-								<li><a href="#">Главная</a></li>
-								<li><a href="#">Измерение показателя цифровизации</a></li>
-								<li><a href="#">Описание методики</a></li>
-								<li><a href="#">Написать нам</a></li>
+								<li><a href="{% url 'main' %}">Главная</a></li>
+								<li><a href="{% url 'choose_indicator' %}">Измерение показателя цифровизации</a></li>
+								<li><a href="{% url 'total_info' %}">Описание методики</a></li>
+								<li><a href="{% url 'contact_us' %}">Написать нам</a></li>
 							</ul>
 						</div>
 
