@@ -73,7 +73,7 @@ class IndicatorMainBP(models.Model):
         verbose_name_plural = 'Частные показатели основных БП'
 
     def __str__(self):
-        return self.self.total_digitalization_value.user.organisation
+        return self.total_digitalization_value.user.organisation
 
 class IndicatorManageBP(models.Model):
     total_digitalization_value = models.ForeignKey('UserResultDigitalization', verbose_name='Показатель БП управления', on_delete=models.CASCADE)

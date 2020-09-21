@@ -153,22 +153,26 @@
 {% endblock %}
 
 {% block script %}
-
-            $('.save-result-btn').click(function(e){
-                console.log("Yes")
-                e.preventDefault();
-                $.ajax({
-                    type: 'GET',
-                    url: '{% url 'calculating:save_result' %}',
-                    success: function(response) {
-                        if ( response["saved"]) {
-                                $('.save-result-btn').replaceWith('<a href="{% url 'calculating:show_history_of_evaluations' %}" class="btn-main btn-secondary save-result-btn">Результат сохранен! История измерений - в личном кабинете!</a>')
+    <script>
+            $(document).ready(function(){
+                console.log('start1')
+                $(document).on("click", '.save-result-btn', function(e) {
+                    console.log('start2')
+                    e.preventDefault()
+                    let page_url = $(this).attr('href')
+                    $.ajax({
+                        type: 'GET',
+                        url: page_url,
+                        success: function(response) {
+                            if ( response["saved"]) {
+                                    $('.save-result-btn').replaceWith('<a href="{% url 'calculating:show_history_of_evaluations' %}" class="btn-main btn-secondary">Результат сохранен! История измерений - в личном кабинете!</a>')
+                            };
+                        error: var er = function (response) {
+                            console.log(response);
                         };
-                    error: var er = function (response) {
-                        console.log(response);
-                    };
-                }
+                    }
+                    });
                 });
-            });
-
+            })
+    </script>
 {% endblock %}
