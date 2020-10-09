@@ -35,41 +35,50 @@
 					{% for result_of_digitalization in results_of_digitalization %}
 					<!-- UI - X Starts -->
 						<div class="ui-310">
-							<div class="container-fluid saved-result">
-								<!-- Item -->
-								<div class="ui-item clearfix">
-									<!-- Heading -->
-									{% if 0 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 30 %}
-										<h3 class="bg-red"><a href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
-										<!-- Content -->
-										<a class="result-to-pdf" href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">
-										<div class="ui-content">
+
+								<div id="{{ result_of_digitalization.id }}" class="container-fluid saved-result">
+									<!-- Item -->
+									<div class="row">
+										<div class="ui-item clearfix col-md-10 col-sm-10 col-10">
 											<!-- Heading -->
-												<h4 class="bg-red"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+											{% if 0 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 30 %}
+												<h3 class="bg-red"><a href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+												<!-- Content -->
+												<a class="result-to-pdf" href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">
+												<div class="ui-content">
+													<!-- Heading -->
+														<h4 class="bg-red"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+												</div>
+												</a>
+											{% elif 30 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 50 %}
+												<h3 class="bg-yellow"><a href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+												<!-- Content -->
+												<a class="result-to-pdf" href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">
+												<div class="ui-content">
+													<!-- Heading -->
+														<h4 class="bg-yellow"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+												</div>
+												</a>
+											{% else %}
+												<h3 class="bg-green"><a href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
+												<!-- Content -->
+												<a class="result-to-pdf" href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">
+												<div class="ui-content">
+													<!-- Heading -->
+														<h4 class="bg-green"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+												</div>
+												</a>
+											{% endif %}
 										</div>
-										</a>
-									{% elif 30 <= result_of_digitalization.digitalization and result_of_digitalization.digitalization < 50 %}
-										<h3 class="bg-yellow"><a href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
-										<!-- Content -->
-										<a class="result-to-pdf" href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">
-										<div class="ui-content">
-											<!-- Heading -->
-												<h4 class="bg-yellow"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
+										<div class="col-md-2 col-sm-2 col-2">
+										 	<button id="del-history" data-id="{{ result_of_digitalization.id }}" class="btn btn-outline-danger btn-sm mx-1">x</button>
 										</div>
-										</a>
-									{% else %}
-										<h3 class="bg-green"><a href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">{{ result_of_digitalization.date_added|date:"d.m.Y" }}</a></h3>
-										<!-- Content -->
-										<a class="result-to-pdf" href="{% url 'calculating:generate_pdf' result_of_digitalization.id %}" target="_blank">
-										<div class="ui-content">
-											<!-- Heading -->
-												<h4 class="bg-green"  data-valuemax="{{ result_of_digitalization.digitalization }}" ><span></span></h4>
-										</div>
-										</a>
-									{% endif %}
+									</div>
 								</div>
-							</div>
+
+
 						</div>
+
 						<!-- UI - X Ends -->
 					{% endfor %}
 				</div>
@@ -107,4 +116,58 @@
 		</script>
 
 
+{% endblock %}
+
+{% block script %}
+	<script>
+			$(document).ready(function(){
+				function getCookie(name) {
+					var cookieValue = null;
+					var i = 0;
+					if (document.cookie && document.cookie !== '') {
+						var cookies = document.cookie.split(';');
+						for (i; i < cookies.length; i++) {
+							var cookie = jQuery.trim(cookies[i]);
+							// Does this cookie string begin with the name we want?
+							if (cookie.substring(0, name.length + 1) === (name + '=')) {
+								cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+								break;
+							}
+						}
+					}
+					return cookieValue;
+				}
+				var csrftoken = getCookie('csrftoken');
+
+				function csrfSafeMethod(method) {
+					// these HTTP methods do not require CSRF protection
+					return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+				}
+				$.ajaxSetup({
+					crossDomain: false, // obviates need for sameOrigin test
+					beforeSend: function(xhr, settings) {
+						if (!csrfSafeMethod(settings.type)) {
+							xhr.setRequestHeader("X-CSRFToken", csrftoken);
+						}
+					}
+				});
+				$(document).on("click", '#del-history', function(e) {
+					e.preventDefault()
+					let id = $(this).data('id')
+					$.ajax({
+						type: 'POST',
+						data: {'id': id},
+						success: function(response) {
+						if (response["Deleted"]) {
+							$("#" +id).remove()
+							console.log('response["Deleted"]')
+						}
+						error: var er = function (response) {
+							console.log(response);
+						};
+					}
+					});
+				});
+			})
+	</script>
 {% endblock %}

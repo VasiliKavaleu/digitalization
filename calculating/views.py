@@ -68,6 +68,11 @@ def save_result(request):
 
 @login_required
 def show_history_of_evaluations(request):
+    if request.is_ajax and request.method == "POST":
+        id_from_req = request.POST['id']
+        saved_result = UserResultDigitalization.objects.get(id=id_from_req)
+        saved_result.delete()
+        return JsonResponse({"Deleted": True}, status=200)
     results_of_digitalization = UserResultDigitalization.objects.filter(user=request.user).order_by('-date_added')
     return render(request, 'saved_result.html', {'results_of_digitalization': results_of_digitalization})
 

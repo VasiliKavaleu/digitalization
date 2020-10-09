@@ -531,3 +531,16 @@ div.single-post-content p {
 .portfolio-item-description.col-sm-6 {
     text-align: justify;
 }
+
+
+button#del-history {
+    background: darkgrey;
+    border: 0.2rem solid white;
+    border-radius: 10px;
+    margin-top: 22px;
+}
+
+button#del-history:hover {
+    border: 0.2rem solid #a94442;
+    color: red;
+}
