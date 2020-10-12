@@ -8,10 +8,53 @@
                         <h1>Шаг 1: Выберите показатели соответствующие виду деятельности Вашей организации</h1>
                     </div>
                 </div>
+                            		<!-- UI X -->
+                <div class="ui-79">
+                    <!-- List -->
+                    <div class="list">
+                        <!-- List item. Specify background color here... -->
+                        <div class="l-item bg-lblue">
+                            <!-- and here -->
+                            <a href="ui-79.html#" class="bg-lblue clearfix">
+                                <!-- Heading -->
+
+                                <div class="row down-slider-trigger">
+                                        <img src="{% static 'img/double-down.png' %}" class="img-slide" alt="">
+                                        <h3 class="title-slide-down">Сортировать по отраслям</h3>
+                                        <img src="{% static 'img/double-down.png' %}" class="img-slide" alt="">
+                                </div>
+                                <!-- Icon -->
+                                <i class="fa fa-angle-double-down"></i>
+                            </a>
+                            <!-- Content -->
+                            <div class="content-down" style="display: none;">
+                                <!-- Heading -->
+                                <h2 class="title-upon-inductry-choose">Для каждого предприятия и организации отрасли
+                                    составляется подмножество частных показателей в соответствии
+                                    с основными направлениями их деятельности.
+                                    При наличии в отрасли предприятий и организаций,
+                                    охватывающих иные сферы деятельности, частные показатели для
+                                    них должны быть выбраны из перечня других отраслей и функциональных сфер.</h2>
+                                <!-- Paragraph -->
+                                {% if industries %}
+                                    <div class="btn-group" data-toggle="buttons">
+                                        {% for industry in industries %}
+                                        <a class="example_b" id="industry{{ industry.id }}" data-id="{{ industry.id }}" data-info="{{ industry.name }}" href="" rel="nofollow noopener">{{ industry.name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
+
         <div class="section">
 			<div class="container">
+
+
 				<div class="row">
 					<div class="col-md-12 faq-wrapper">
 						<div class="panel-group" id="accordion2">
@@ -115,6 +158,16 @@
 
 {% block script %}
     <script>
+                <!-- Choosen industries -->
+                function choosenIndustries() {
+                    var checked = [];
+                    $('.active-filter').each(function(){
+						checked.push($(this).data('id'));
+					});
+					return checked
+                }
+
+
                 function ajaxPaginator() {
                         $(document).on("click", 'a.page-link', function(e) {
                             e.preventDefault()
@@ -122,6 +175,7 @@
                             $.ajax({
                                 url: page_url,
                                 type: 'GET',
+                                data: {'Industry': choosenIndustries()},
                                 dataType: 'html',
                                 success: (data) => {
                                      var data = $.parseHTML(data);
@@ -140,6 +194,7 @@
 
                 ajaxPaginator()
 
+                <!-- Choose Degree -->
                 $(document).on("click", '.chs-del', function(e) {
                     var id = $(this).attr('id');
                     e.preventDefault();
@@ -164,7 +219,53 @@
                         }
                     });
                 });
+
+                <!-- Slide down -->
+                $(".ui-79 .l-item > a").click(function(e){
+					e.preventDefault();
+					var allContent = $(".ui-79 .content-down");
+					var content = $(this).next(".content-down");
+					if(content.hasClass("open")){
+						content.slideUp(200);
+						content.removeClass("open");
+					}
+					else{
+						allContent.slideUp(200);
+						allContent.removeClass("open");
+						content.slideDown(200);
+						content.addClass("open");
+					}
+				});
+
+
+                <!-- Button filter -->
+                $('.example_b').click(function(e){
+                    e.preventDefault();
+                    var id = $(this).data('id');
+                    if ($('#' + 'industry' + id).hasClass('active-filter')) {
+                        $('#' + 'industry' + id).removeClass('active-filter');
+                    }else {
+                        $('#' + 'industry' + id).addClass('active-filter');
+                    }
+
+                    $.ajax({
+                        type: 'GET',
+                        data: {'Industry': choosenIndustries()},
+                        success: (data) => {
+                             var data = $.parseHTML(data);
+                            $('#accordion2').empty()
+                            $('#accordion2').append( $(data).find('#accordion2') )
+
+                            $('.pagination').empty()
+                            $('.pagination').append( $(data).find('.pagination') )
+                        }
+                    });
+
+				});
+
+
         })
+
         $(document).ajaxStop(function(){
             ajaxPaginator()
         })

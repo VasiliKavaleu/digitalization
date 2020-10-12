@@ -15,6 +15,7 @@ class AnswerInputInline(admin.TabularInline):
 class DegreeAdmin(admin.ModelAdmin):
     list_display = ['name']
     inlines = [AnswerChoiceInline, AnswerInputInline]
+    list_filter = ('industry',)
 
 
 @admin.register(AnswerChoice)

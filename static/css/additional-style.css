@@ -544,3 +544,88 @@ button#del-history:hover {
     border: 0.2rem solid #a94442;
     color: red;
 }
+
+
+
+    /* Title slide down*/
+h3.title-slide-down {
+    text-align: center;
+    color: whitesmoke;
+    padding-top: 20;
+    padding-left: 20;
+    padding-right: 20;
+}
+
+
+
+.row.down-slider-trigger {
+    display: flex;
+    justify-content: center;
+    margin-top: 20;
+    font-size: smaller;
+}
+
+img.img-slide {
+    width: 35px;
+    padding-top: 15px;
+}
+
+.row.down-slider-trigger:hover {
+    box-shadow: 0 0 20px 0px #777;
+    border-radius: 10px;
+}
+
+
+h2.title-upon-inductry-choose {
+    color: white;
+    font-size: medium;
+    margin-bottom: 10px;
+    margin-top: 10px !important;
+}
+}
+
+label.btn.btn-primary.form-check-label.active {
+    background-color: #eee;
+    color: currentcolor;
+}
+
+
+label.btn.btn-primary.form-check-label.active:hover{
+    background-color: #4f8db3;
+    color: white;
+}
+
+
+
+
+
+.example_b {
+color: currentcolor !important;
+text-transform: uppercase;
+text-decoration: none;
+/*background: #60a3bc;*/
+background: #eee;
+padding: 20px;
+border-radius: 50px;
+display: inline-block;
+border: none;
+transition: all 0.4s ease 0s;
+padding-top: 10;
+margin-top: 10px;
+padding-bottom: 10px;
+font-weight: bold;
+}
+
+.example_b:hover {
+text-shadow: 0px 0px 6px rgba(255, 255, 255, 1);
+-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+transition: all 0.4s ease 0s;
+box-shadow: 0 0 13px 0px #eee;
+}
+
+
+.active-filter {
+  background: #777;
+  color: white !important;
+}

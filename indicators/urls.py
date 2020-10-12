@@ -10,4 +10,5 @@ urlpatterns = [
 	path('total_info', views.total_info, name="total_info"),
 	path('formation_indicators', views.formation_indicators, name="formation_indicators"),
 	path('methods', views.methods, name="methods"),
+
 ]

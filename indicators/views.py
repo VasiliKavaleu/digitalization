@@ -2,26 +2,26 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
-from .paginator_helper import pg_records
-from set.set import Set
 from .models import Degree
 from .forms import ContactForm
+from .services import get_context
 
 
 def main(request):
     return render(request, 'main.html')
 
+@login_required
 def choose_indicator(request):
     """Reflecting selected indicators."""
-    if request.user.is_authenticated:
+    if not request.GET.getlist('Industry[]'):
         indicators = Degree.objects.all()
-        set = Set(request)
-        list_id_in_set = [int(i) for i in request.session.get(settings.SET_SESSION_ID).keys()]
-        context = pg_records(request, indicators, 5)
-        context['list_id_in_set'] = list_id_in_set
-        return render(request, 'indicators.html', context)
-    return redirect('account:login_user')
+        return render(request, 'indicators.html', get_context(request, indicators))
+    else:
+        indicators = Degree.objects.filter(industry__in=request.GET.getlist('Industry[]'))
+        return render(request, 'indicators.html', get_context(request, indicators))
+
 
 def contact_us(request):
     """Sending email."""
@@ -59,3 +59,4 @@ def methods(request):
 
 def formation_indicators(request):
     return render(request, 'description/formation_indicators.html')
+

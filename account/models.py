@@ -3,29 +3,12 @@ from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
 
 
-DEPATMENT_CHOICES = (
-        ('Не выбрано', 'Не выбрано'),
-        ('Образование', 'Образование'),
-        ('Наука', 'Наука'),
-        ('Здравоохранение', 'Здравоохранение'),
-        ('Нефтехимическая промышленность', 'Нефтехимическая промышленность'),
-        ('Промышленность', 'Промышленность'),
-        ('Легкая промышленность', 'Легкая промышленность'),
-        ('Пищевая промышленность', 'Пищевая промышленность'),
-        ('Траснпорт и коммуникации', 'Траснпорт и коммуникации'),
-        ('Лесное хозяйство', 'Лесное хозяйство'),
-        ('Сельское хозяйство', 'Сельское хозяйство'),
-        ('Архитектура и строительство', 'Архитектура и строительство'),
-        ('Энергетика', 'Энергетика'),
-        ('Связь и информатизация', 'Связь и информатизация'),
-        ('Природные ресурсы и охрана окружающей среды', 'Природные ресурсы и охрана окружающей среды'),
-    )
-
 class CustomUser(AbstractUser):
     """User."""
     username = None
     email = models.EmailField('Email адрес', unique=True)
     organisation = models.CharField('Организация', max_length=100)
+    industry = models.ForeignKey('Industry', verbose_name='Отрасль', on_delete=models.SET_NULL, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -34,17 +17,6 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
-
-class Depatment(models.Model):
-    user = models.OneToOneField('CustomUser', on_delete=models.CASCADE)
-    name = models.CharField(max_length=300, choices=DEPATMENT_CHOICES)
-
-    class Meta:
-        verbose_name = 'Отрасль/функциональная сфера'
-        verbose_name_plural = 'Отрасли/функциональные сферы'
-
-    def __str__(self):
-        return self.user.organisation
 
 
 class UserResultDigitalization(models.Model):
@@ -98,3 +70,14 @@ class IndicatorAuxiliaryBP(models.Model):
 
     def __str__(self):
         return self.total_digitalization_value.user.organisation
+
+
+class Industry(models.Model):
+    name = models.TextField('Отрасль')
+
+    class Meta:
+        verbose_name = 'Отрасль/функциональная сфера'
+        verbose_name_plural = 'Отрасли/функциональные сферы'
+
+    def __str__(self):
+        return self.name

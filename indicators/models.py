@@ -1,4 +1,5 @@
 from django.db import models
+from account.models import Industry
 
 
 class Degree(models.Model):
@@ -8,6 +9,8 @@ class Degree(models.Model):
     question = models.TextField('Вопрос', blank=True)
     multiple_answer = models.BooleanField('Предпологает множественный ответ', null=False)
     indicator_of_share = models.BooleanField('Показатель доля', null=False)
+    industry = models.ManyToManyField(Industry)
+
 
     class Meta:
         verbose_name = 'Частный показатель'

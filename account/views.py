@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from . forms import SignUpForm, LoginForm, UpdateUserData, ChooseDepatmentForm
-from .models import CustomUser, Depatment
+from . forms import SignUpForm, LoginForm, UpdateUserData
+from .models import CustomUser, Industry
 
 
 def login_user(request):
@@ -30,12 +30,10 @@ def logout_user(request):
 
 def register(request):
     form = SignUpForm()
-    depatment_form = ChooseDepatmentForm()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             new_user = form.save()
-            depatment = Depatment.objects.create(name=request.POST['name'], user=new_user)
             login_user = authenticate(request,
                                       email=request.POST['email'],
                                       password=request.POST['password1']
@@ -45,8 +43,8 @@ def register(request):
             messages.success(request, 'Вы успешно зарегистрированы!')
             return redirect('account:register')
         else:
-            return render(request, 'register.html', {'form': form, 'depatment_form': depatment_form})
-    return render(request, 'register.html', {'form': form, 'depatment_form': depatment_form})
+            return render(request, 'register.html', {'form': form})
+    return render(request, 'register.html', {'form': form})
 
 
 @login_required
@@ -61,13 +59,15 @@ def update_user(request):
                                         'first_name': user.first_name,
                                         'last_name': user.last_name,
                                         'email': user.email,
-                                        'organisation': user.organisation
+                                        'organisation': user.organisation,
+                                        'industry': user.industry,
                                         })
         if request.method == 'POST':
             user.first_name = request.POST.get("first_name")
             user.last_name = request.POST.get("last_name")
             user.email = request.POST.get("email")
             user.organisation = request.POST.get("organisation")
+            user.industry = Industry.objects.get(id=request.POST.get("industry"))
             user.save()
             messages.success(request, 'Данные успешно изменены!')
             return redirect('account:update_user')

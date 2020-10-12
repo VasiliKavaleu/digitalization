@@ -1,27 +1,7 @@
 from django import forms
 
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, Depatment
-
-
-DEPATMENT_CHOICES = (
-        ('Не выбрано', 'Не выбрано'),
-        ('Образование', 'Образование'),
-        ('Наука', 'Наука'),
-        ('Здравоохранение', 'Здравоохранение'),
-        ('Нефтехимическая промышленность', 'Нефтехимическая промышленность'),
-        ('Промышленность', 'Промышленность'),
-        ('Легкая промышленность', 'Легкая промышленность'),
-        ('Пищевая промышленность', 'Пищевая промышленность'),
-        ('Траснпорт и коммуникации', 'Траснпорт и коммуникации'),
-        ('Лесное хозяйство', 'Лесное хозяйство'),
-        ('Сельское хозяйство', 'Сельское хозяйство'),
-        ('Архитектура и строительство', 'Архитектура и строительство'),
-        ('Энергетика', 'Энергетика'),
-        ('Связь и информатизация', 'Связь и информатизация'),
-        ('Природные ресурсы и охрана окружающей среды', 'Природные ресурсы и охрана окружающей среды'),
-    )
-
+from .models import CustomUser, Industry
 
 
 class SignUpForm(UserCreationForm):
@@ -37,6 +17,9 @@ class SignUpForm(UserCreationForm):
 	organisation = forms.CharField(max_length=254, label='Организация', widget=forms.TextInput(
 		attrs={'class': 'form-control'}
 	))
+	industry = forms.ModelChoiceField(label='Отрасль', queryset=Industry.objects.all(),
+		widget=forms.Select(attrs={'class': 'form-control'}
+	))
 	password1 = forms.CharField(max_length=254, label='Пароль', widget=forms.PasswordInput(
 		attrs={'class': 'form-control'}
 	))
@@ -46,7 +29,7 @@ class SignUpForm(UserCreationForm):
 
 	class Meta:
 		model = CustomUser
-		fields = ('organisation', 'first_name', 'last_name',  'email', 'password1', 'password2')
+		fields = ('organisation', 'industry', 'first_name', 'last_name',  'email', 'password1', 'password2')
 
 
 class LoginForm(forms.Form):
@@ -71,18 +54,13 @@ class UpdateUserData(forms.Form):
 	organisation = forms.CharField(max_length=254, label='Организация', widget=forms.TextInput(
 		attrs={'class': 'form-control'}
 	))
+	industry = forms.ModelChoiceField(label='Отрасль', queryset=Industry.objects.all(),
+		widget=forms.Select(attrs={'class': 'form-control'}
+	))
 
 	class Meta:
 		model = CustomUser
-		fields = ('organisation', 'first_name', 'last_name', 'email')
+		fields = ('organisation', 'industry', 'first_name', 'last_name', 'email')
 
 
-class ChooseDepatmentForm(forms.Form):
-	name = forms.ChoiceField(label='Отрасль', choices=DEPATMENT_CHOICES, widget=forms.Select(
-		attrs={'class': 'form-control'}
-	))
 
-
-	class Meta:
-		model = Depatment
-		fields = ('name')
